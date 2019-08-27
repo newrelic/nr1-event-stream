@@ -1,0 +1,57 @@
+@import url('//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css');
+table.process-table {
+    width: 100%;
+    font-size: 14px;
+  
+    thead {
+      background-color:#222222;
+      color: white;
+  
+      th {
+        padding-left: 2px;
+        padding-right: 2px;
+      }
+    }
+  
+    tbody {
+      font-family: 'Courier New', Courier, monospace;
+      cursor: pointer;
+  
+      tr:nth-child(even) {
+        background-color: #f4f4f4;
+      }
+  
+      tr:hover {
+        background-color: azure;
+      }
+  
+      tr.selected {
+        background-color: #444444;
+        color: #eeeeee;
+        border: 1px solid #888888;
+      }
+  
+      td {
+        padding-left: 2px;
+        padding-right: 2px;
+      }
+    }
+  
+    .left {
+      text-align: left;
+    }
+    .right {
+      text-align: right;
+    }
+    .center {
+      text-align: center;
+    }
+    
+  }
+  
+  .process-details {
+    padding-right: 8px;
+    .chart {
+      height: 180px;
+    }
+  }

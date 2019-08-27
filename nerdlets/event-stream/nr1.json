@@ -1,0 +1,11 @@
+{
+    "schemaType": "NERDLET",
+    "id": "event-stream",
+    "actionCategory": "troubleshoot",
+    "description": "",
+    "displayName": "Event Stream",
+    "entities": [
+        {"domain": "APM", "type": "APPLICATION"},
+        {"domain": "BROWSER", "type": "APPLICATION"}
+    ]
+}
