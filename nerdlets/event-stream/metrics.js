@@ -8,50 +8,58 @@ module.exports = {
         ids: ['request.uri','name','transactionName'],
         name: "name",
         align: "left",
-        width: "100px"
+        width: "100px",
       },
       host: {
         id: "host",
         name: "host",
-        align: "left"
+        align: "left",
+        width: "125px"
       },
       duration: {
         id: 'duration',
         name: "ms",
         align: "left",
-        toFixed: 4
+        toFixed: 4,
+        width: "55px"
       },
       dbDuration: {
         id: 'databaseDuration',
         name: "dbMs",
         align: "left",
-        toFixed: 4
+        toFixed: 4,
+        width: "55px"
       },
       externalDuration: {
         id: "externalDuration",
         name: "extMs",
         align: "left",
-        toFixed: 4
+        toFixed: 4,
+        width: "55px"
       },
       queueDuration: {
         id: "queueDuration",
         name: "qMs",
         align: "left",
-        toFixed: 4
+        toFixed: 4,
+        width: "55px"
       },
       code: {
         id: 'response.status',
         name: 'code',
-        align: 'left'
+        align: 'center',
+        width: "55px"
       },
       databaseCallCount: {
         id: 'databaseCallCount',
         name: 'dbCallCount',
-        align: 'left'
+        align: 'left',
+        width: "55px"
     },
     externalCallCount: {
       id: 'externalCallCount',
       name: 'externalCallCount',
-      align: 'left'
+      align: 'left',
+      width: "55px"
     }
 }

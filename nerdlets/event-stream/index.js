@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { nerdGraphQuery, nrdbQuery } from './utils';
 import TransactionTable from './components/transactionTable'
-import Header from './components/header'
-import { Tabs, TabsItem, Modal, Button } from 'nr1';
+import HeaderInternal from './components/header'
+import { Tabs, TabsItem, Modal, Button, LineChart } from 'nr1';
 import JSONPretty from 'react-json-pretty';
+import { Header, Grid } from 'semantic-ui-react'
 import { Sparklines, SparklinesLine, SparklinesSpots } from 'react-sparklines';
 
 const METRICS = require("./metrics")
@@ -155,37 +156,60 @@ export default class MyNerdlet extends React.Component {
 
         return (
           <>
-            <Sparklines data={this.state.eventLength} height={15} limit={50} style={{ strokeWidth: 0.4 }}>
-              <SparklinesLine color="black" style={{ strokeWidth: 0.4 }}/>
-              <SparklinesSpots size={0.5} />
-            </Sparklines>
-            <Header state={this.state} setParentState={this.setParentState} filters={this.state.filters} enabled={this.state.enabled} eventLength={this.state.eventLength}/>
-            <Tabs defaultSelectedItem="tab-1" style={{fontSize:"14px"}}>
-              <TabsItem itemKey="tab-1" label="All">
-                {`Events: ${events.length > 0 ? events.length : "No Event Data"}`}
-                <TransactionTable events={events} rowSelect={this.rowSelect} handleFilter={this.handleFilter}/>
-              </TabsItem>
-              <TabsItem itemKey="tab-2" label="Database">
-                {`Events: ${dbEvents.length > 0 ? dbEvents.length : "No Event Data"}`}
-                <TransactionTable events={dbEvents} rowSelect={this.rowSelect} handleFilter={this.handleFilter} cols={[METRICS.host, METRICS.name, METRICS.code, METRICS.duration, METRICS.dbDuration, METRICS.databaseCallCount ]} />
-              </TabsItem>
-              <TabsItem itemKey="tab-3" label="External">
-                {`Events: ${extEvents.length > 0 ? extEvents.length : "No Event Data"}`}
-                <TransactionTable events={extEvents} rowSelect={this.rowSelect} handleFilter={this.handleFilter} cols={[METRICS.host, METRICS.name, METRICS.code, METRICS.duration, METRICS.externalDuration, METRICS.externalCallCount ]} />
-              </TabsItem>
-              <TabsItem itemKey="tab-4" label="Queues">
-                {`Events: ${queueEvents.length > 0 ? queueEvents.length : "No Event Data"}`}
-                <TransactionTable events={queueEvents} rowSelect={this.rowSelect} handleFilter={this.handleFilter} />
-              </TabsItem>
-              <TabsItem itemKey="tab-5" label="Errors">
-                {`Events: ${errorEvents.length > 0 ? errorEvents.length : "No Event Data"}`}
-                <TransactionTable events={errorEvents} rowSelect={this.rowSelect} handleFilter={this.handleFilter} />
-              </TabsItem>
-            </Tabs>
-            <Modal hidden={this.state.hidden} onClose={this.onClose}> 
-                <JSONPretty data={this.state.jsonTemp}></JSONPretty>
-                <Button onClick={this.onClose}>Close</Button>
-            </Modal>
+            
+            <Grid>
+              <Grid.Row style={{paddingBottom:"0px"}}>
+                <Grid.Column>
+                  <Header size='large'  style={{paddingTop: "10px", paddingLeft: "10px"}}>Event Stream</Header>
+
+                  <Sparklines data={this.state.eventLength} height={15} limit={50} style={{ strokeWidth: 0.2 }}>
+                    <SparklinesLine color="black" style={{ strokeWidth: 0.2 }}/>
+                    <SparklinesSpots size={0.3} />
+                  </Sparklines>
+                  {/* <LineChart
+                      accountId={this.state.accountId}
+                      query={`SELECT count(*) as 'RPM' FROM Transaction,TransactionError WHERE entityGuid='${this.props.nerdletUrlState.entityGuid}' SINCE 1 minutes ago TIMESERIES AUTO`}
+                      style={{height:"150px", paddingTop: "10px", paddingLeft: "10px", paddingRight: "10px"}}
+                  /> */}
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row columns={16}>
+                {/* <Grid.Column width={2}>
+                  Attribute Search
+                </Grid.Column> */}
+                <Grid.Column width={16}>
+
+      
+                    <HeaderInternal state={this.state} setParentState={this.setParentState} filters={this.state.filters} enabled={this.state.enabled} eventLength={this.state.eventLength}/>
+                    <Tabs defaultSelectedItem="tab-1" style={{fontSize:"14px"}}>
+                      <TabsItem itemKey="tab-1" label="All">
+                        {/* {`Events: ${events.length > 0 ? events.length : "No Event Data"}`} */}
+                        <TransactionTable events={events} rowSelect={this.rowSelect} handleFilter={this.handleFilter}/>
+                      </TabsItem>
+                      <TabsItem itemKey="tab-2" label="Database">
+                        {/* {`Events: ${dbEvents.length > 0 ? dbEvents.length : "No Event Data"}`} */}
+                        <TransactionTable events={dbEvents} rowSelect={this.rowSelect} handleFilter={this.handleFilter} cols={[METRICS.host, METRICS.name, METRICS.code, METRICS.duration, METRICS.dbDuration, METRICS.databaseCallCount ]} />
+                      </TabsItem>
+                      <TabsItem itemKey="tab-3" label="External">
+                        {/* {`Events: ${extEvents.length > 0 ? extEvents.length : "No Event Data"}`} */}
+                        <TransactionTable events={extEvents} rowSelect={this.rowSelect} handleFilter={this.handleFilter} cols={[METRICS.host, METRICS.name, METRICS.code, METRICS.duration, METRICS.externalDuration, METRICS.externalCallCount ]} />
+                      </TabsItem>
+                      <TabsItem itemKey="tab-4" label="Queues">
+                        {/* {`Events: ${queueEvents.length > 0 ? queueEvents.length : "No Event Data"}`} */}
+                        <TransactionTable events={queueEvents} rowSelect={this.rowSelect} handleFilter={this.handleFilter} />
+                      </TabsItem>
+                      <TabsItem itemKey="tab-5" label="Errors">
+                        {/* {`Events: ${errorEvents.length > 0 ? errorEvents.length : "No Event Data"}`} */}
+                        <TransactionTable events={errorEvents} rowSelect={this.rowSelect} handleFilter={this.handleFilter} />
+                      </TabsItem>
+                    </Tabs>
+                    <Modal hidden={this.state.hidden} onClose={this.onClose}> 
+                        <JSONPretty data={this.state.jsonTemp}></JSONPretty>
+                        <Button onClick={this.onClose}>Close</Button>
+                    </Modal>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           </>
         )
     }
