@@ -5,7 +5,6 @@
     "description": "",
     "displayName": "Event Stream",
     "entities": [
-        {"domain": "APM", "type": "APPLICATION"},
-        {"domain": "BROWSER", "type": "APPLICATION"}
+        {"domain": "APM", "type": "APPLICATION"}
     ]
 }
