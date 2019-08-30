@@ -82,9 +82,11 @@ export default class TransactionEventTable extends React.PureComponent {
                               }
                           }
                       }
-                      if(column.multiplyBy){
-                          columnData = columnData * column.multiplyBy
+
+                      if(columnData && column.multiplyBy){
+                          columnData = columnData * (column.multiplyBy || 1)
                       }
+
                       if(column.toFixed && columnData){
                           columnData = columnData.toFixed(column.toFixed)
                       }

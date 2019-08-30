@@ -21,28 +21,32 @@ module.exports = {
         name: "ms",
         align: "left",
         toFixed: 4,
-        width: "55px"
+        width: "55px",
+        multiplyBy: 1000
       },
       dbDuration: {
         id: 'databaseDuration',
         name: "dbMs",
         align: "left",
         toFixed: 4,
-        width: "55px"
+        width: "55px",
+        multiplyBy: 1000
       },
       externalDuration: {
         id: "externalDuration",
         name: "extMs",
         align: "left",
         toFixed: 4,
-        width: "55px"
+        width: "55px",
+        multiplyBy: 1000
       },
       queueDuration: {
         id: "queueDuration",
         name: "qMs",
         align: "left",
         toFixed: 4,
-        width: "55px"
+        width: "55px",
+        multiplyBy: 1000
       },
       code: {
         id: 'response.status',
