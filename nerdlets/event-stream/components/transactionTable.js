@@ -68,7 +68,7 @@ export default class TransactionEventTable extends React.PureComponent {
               <Table.Body>
               {tableEvents.map(row => {
 
-                return <Table.Row key={row.timestamp + ":" + new Date().getTime() + ":" + row.traceId}>
+                return <Table.Row key={row.timestamp + ":" + row.traceId}>
                   <Table.Cell style={{width:"70px"}} onClick={() => this.props.rowSelect(row.traceId,"")}>{new Date(row.timestamp).toLocaleTimeString()}</Table.Cell>
                   {COLUMNS.map(column => {
                       let columnData = row[column.id]
@@ -92,8 +92,13 @@ export default class TransactionEventTable extends React.PureComponent {
                       }
 
                     let badStatus = column.id == "response.status" && parseFloat(columnData) > 299 ? true : false;
-
-                    return <Table.Cell negative={badStatus} onClick={()=>this.props.handleFilter(column, columnData)} className={column.align || 'right'} style={{width:column.width || "100%"}} key={columnId}>{columnData}</Table.Cell>
+                    return <Table.Cell 
+                                negative={badStatus} 
+                                onClick={()=>this.props.handleFilter(column, columnData)} className={column.align || 'right'} 
+                                style={{maxWidth:column.width || "100%"}} 
+                                key={columnId}>
+                              {columnData}
+                            </Table.Cell>
                   })}
                 </Table.Row>
               })}

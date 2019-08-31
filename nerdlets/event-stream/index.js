@@ -27,7 +27,9 @@ export default class MyNerdlet extends React.Component {
           bucketMs: 30000, 
           hidden: true, 
           jsonTemp: null, 
-          filters: {} 
+          filters: {},
+          previousIds: [],
+          queryStatus: ""
         }
         this.startTimer = this.startTimer.bind(this)
         this.onClose = this.onClose.bind(this);
@@ -101,30 +103,36 @@ export default class MyNerdlet extends React.Component {
 
     startTimer(){
         this.refresh = setInterval(async ()=>{
-            if(this.state.enabled){
-                let { entity, baseQuery, events, bucketMs, eventLength } = this.state
+            if(this.state.enabled && this.state.queryStatus != "start"){
+                await this.setState({queryStatus: "start"})
+                let { entity, baseQuery, events, bucketMs, eventLength, previousIds } = this.state
+
+                // keep only first 1000 events
+                if(events.length > 1000) events = events.slice(0,1000)
+
+                // only get events from 2 seconds ago
                 let currentTimestamp = new Date().getTime()
-                let startFrom = currentTimestamp - 3000
-                let query = `${baseQuery} AND timestamp >= ${startFrom} LIMIT 2000`
+
+                // do not query ids that have already been found
+                let query = `${baseQuery} AND traceId NOT IN (${"'"+previousIds.join("','") + "'"}) SINCE 2 seconds ago LIMIT 2000`
                 let result = await nrdbQuery(entity.account.id, query)
+                console.log(result.length, new Date().getTime())
                 events.push(...result)
 
-                // keep only unique transactions and anything x seconds old
-                var uniqueEvents = events.reduce((unique, o) => {
-                    let timestampDiff = currentTimestamp - o.timestamp
-                    // need handling for other unique identifiers
-                    if(!unique.some(obj => obj.traceId === o.traceId)){
-                        if(timestampDiff <= bucketMs){
-                            unique.push(o);
-                        }
-                    }
-                    return unique;
-                },[]);
-                eventLength.push(uniqueEvents.length)
-                if(eventLength.length > 25){
-                  eventLength.unshift()
-                }
-                this.setState({events: uniqueEvents.sort((a, b) => (a.timestamp > b.timestamp) ? 1 : -1).reverse(), eventLength: eventLength })
+                // store newIds into array for filtering use
+                let newIds = []
+                let newEvents = events.filter((event)=>{
+                  newIds.push(event.traceId)
+                  let timestampDiff = currentTimestamp - event.timestamp
+                  return timestampDiff <= bucketMs
+                })
+
+                // sort by timestamp
+                newEvents = newEvents.sort((a, b) => (a.timestamp > b.timestamp) ? -1 : 1)
+                eventLength.push(newEvents.length)
+                if(eventLength.length > 25) eventLength.unshift()
+                  
+                await this.setState({events: newEvents, eventLength: eventLength, previousIds: newIds, queryStatus: "end" })
             }
         },1500);
     }
@@ -149,10 +157,10 @@ export default class MyNerdlet extends React.Component {
 
     render() {
         let events = this.applyFilters(this.state.events, this.state.filters)
-        let errorEvents = events.filter((event)=> event.error || event.errorMessage || event["error.message"] || event["error.class"] || parseFloat(event["response.status"])>299)
-        let dbEvents = events.filter((event)=> event.databaseDuration)
-        let extEvents = events.filter((event)=> event.externalDuration)
-        let queueEvents = events.filter((event)=> event.queueDuration)
+        // let errorEvents = events.filter((event)=> event.error || event.errorMessage || event["error.message"] || event["error.class"] || parseFloat(event["response.status"])>299)
+        // let dbEvents = events.filter((event)=> event.databaseDuration)
+        // let extEvents = events.filter((event)=> event.externalDuration)
+        // let queueEvents = events.filter((event)=> event.queueDuration)
 
         return (
           <>
@@ -183,25 +191,22 @@ export default class MyNerdlet extends React.Component {
                     <HeaderInternal state={this.state} setParentState={this.setParentState} filters={this.state.filters} enabled={this.state.enabled} eventLength={this.state.eventLength}/>
                     <Tabs defaultSelectedItem="tab-1" style={{fontSize:"14px"}}>
                       <TabsItem itemKey="tab-1" label="All">
-                        {/* {`Events: ${events.length > 0 ? events.length : "No Event Data"}`} */}
                         <TransactionTable events={events} rowSelect={this.rowSelect} handleFilter={this.handleFilter}/>
                       </TabsItem>
-                      <TabsItem itemKey="tab-2" label="Database">
-                        {/* {`Events: ${dbEvents.length > 0 ? dbEvents.length : "No Event Data"}`} */}
+
+                      {/* <TabsItem itemKey="tab-2" label="Database">
                         <TransactionTable events={dbEvents} rowSelect={this.rowSelect} handleFilter={this.handleFilter} cols={[METRICS.host, METRICS.name, METRICS.code, METRICS.duration, METRICS.dbDuration, METRICS.databaseCallCount ]} />
                       </TabsItem>
                       <TabsItem itemKey="tab-3" label="External">
-                        {/* {`Events: ${extEvents.length > 0 ? extEvents.length : "No Event Data"}`} */}
                         <TransactionTable events={extEvents} rowSelect={this.rowSelect} handleFilter={this.handleFilter} cols={[METRICS.host, METRICS.name, METRICS.code, METRICS.duration, METRICS.externalDuration, METRICS.externalCallCount ]} />
                       </TabsItem>
                       <TabsItem itemKey="tab-4" label="Queues">
-                        {/* {`Events: ${queueEvents.length > 0 ? queueEvents.length : "No Event Data"}`} */}
                         <TransactionTable events={queueEvents} rowSelect={this.rowSelect} handleFilter={this.handleFilter} />
                       </TabsItem>
                       <TabsItem itemKey="tab-5" label="Errors">
-                        {/* {`Events: ${errorEvents.length > 0 ? errorEvents.length : "No Event Data"}`} */}
                         <TransactionTable events={errorEvents} rowSelect={this.rowSelect} handleFilter={this.handleFilter} />
-                      </TabsItem>
+                      </TabsItem> */}
+
                     </Tabs>
                     <Modal hidden={this.state.hidden} onClose={this.onClose}> 
                         <JSONPretty data={this.state.jsonTemp}></JSONPretty>

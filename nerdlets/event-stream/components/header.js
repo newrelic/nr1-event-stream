@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Dropdown } from 'semantic-ui-react';
 
 export default class TransactionEventTable extends React.PureComponent {
 
@@ -15,6 +15,13 @@ export default class TransactionEventTable extends React.PureComponent {
   }
 
   render() {
+    const options = [
+      { key: 1, text: '5 ', value: 5 },
+      { key: 2, text: '10 ', value: 10 },
+      { key: 3, text: '15 ', value: 15 },
+      { key: 4, text: '20 ', value: 20 },
+    ]
+    
     return (
       <div style={{float:"right"}}>
         <Button.Group icon size={"mini"} >
@@ -24,6 +31,7 @@ export default class TransactionEventTable extends React.PureComponent {
             <Icon size={"small"} name={this.props.enabled?"pause":"play"} />
           </Button>
         </Button.Group>
+        {/* <Dropdown style={{width:"30px"}} options={options} compact selection defaultValue={5} onChange={(e)=>console.log(e.target)} /> */}
       </div>
     )
   }
