@@ -55,6 +55,7 @@ export default class EventTable extends React.PureComponent {
           // do number actions
           if(column.multiply) value = value * column.multiply
           if(column.toFixed) value = value.toFixed(column.toFixed)
+          if(column.key == "timestamp") value = new Date(value).toLocaleTimeString()
         }
 
         return value

@@ -21,7 +21,7 @@ export default class MyNerdlet extends React.Component {
           events: [],
           eventLength: [],
           enabled: true, 
-          bucketMs: 30000, 
+          bucketMs: 15000, 
           filters: {},
           previousIds: [],
           queryTracker: "",
@@ -63,22 +63,20 @@ export default class MyNerdlet extends React.Component {
               let result = await nrdbQuery(entity.account.id, query)
 
               // add new results to events array
-              events.push(...result)  
+              events.unshift(...result)  
                      
               let newIds = []
               let currentTimestamp = new Date().getTime()
               events = events.filter((event)=>{
-                event.timestamp = new Date(event.timestamp).toLocaleTimeString()
-                newIds.push(event.traceId)
                 let timestampDiff = currentTimestamp - event.timestamp
+                newIds.push(event.traceId)
                 return timestampDiff <= bucketMs
               })
 
-              result = result.sort((a, b)=>a.timestamp - b.timestamp)
               eventLength.push(result.length)
 
               if(eventLength.length > 25) eventLength.unshift(); 
-              await this.setState({events:result, eventLength, previousIds: newIds, queryStatus: "end" })
+              await this.setState({events, eventLength, previousIds: newIds, queryStatus: "end" })
           }
       },1500);
   }
