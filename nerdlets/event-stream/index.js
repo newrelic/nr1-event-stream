@@ -139,7 +139,7 @@ export default class MyNerdlet extends React.Component {
             <Grid style={{height:"100%"}}>
               <Grid.Row>
                 <Grid.Column>
-                  <FilterBar filters={this.state.filters} setParentState={this.setParentState} getParentState={this.getParentState}/>
+                  <FilterBar filters={this.state.filters} enabled={this.state.enabled} setParentState={this.setParentState} getParentState={this.getParentState}/>
                 </Grid.Column>
               </Grid.Row>
 

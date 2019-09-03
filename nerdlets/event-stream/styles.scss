@@ -15,9 +15,15 @@
   margin-right: 0px !important;
 }
 
-// .ReactVirtualized__Table__headerColumn{
-  
-// }
+.filter-button{
+  background-color: #fafbfb !important;
+  padding: 16px !important;
+}
+
+.filter-button-right{
+  float: "right" !important;
+  margin-right: 10px !important;
+}
 
 .vertical-center {
   display: -ms-flexbox;
@@ -244,6 +250,7 @@
   height: 60px;
   background-color: #EDEEEE;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
   padding-left: 16px;

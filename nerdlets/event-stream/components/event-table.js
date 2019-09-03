@@ -1,6 +1,7 @@
 import React from 'react';
 import { AutoSizer, Column, Table } from 'react-virtualized'; 
 import { APM_REQ, APM_DEFAULT } from '../lib/metrics'
+import { rowRenderer } from './row-renderer'
 
 export default class EventTable extends React.PureComponent {
 
@@ -108,6 +109,7 @@ export default class EventTable extends React.PureComponent {
               rowHeight={30}
               rowCount={events.length}
               rowGetter={({ index }) => events[index]}
+              rowRenderer={(data)=>rowRenderer(data, events)}
             >
               {this.createColumns(this.state.columns)}
             </Table>

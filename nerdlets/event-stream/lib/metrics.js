@@ -3,6 +3,11 @@ export const APM_REQ = [
       label: "TIME",
       key: "timestamp",
       width: 70
+    },
+    {
+      label: "HOST",
+      key: "host",
+      width: 90
     }
 ]
 

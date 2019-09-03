@@ -1,6 +1,6 @@
 import React from 'react';
-import Select from 'react-select'
-import { Button, Icon, Dropdown, Menu, Checkbox } from 'semantic-ui-react';
+import Select from 'react-select';
+import { Icon, Button, Popup } from 'semantic-ui-react';
 
 function Filter({ attribute, value, removeFilter }) {
   return <div className="filter">
@@ -19,14 +19,6 @@ export default class FilterBar extends React.PureComponent {
     this.removeFilter = this.removeFilter.bind(this);
   }
 
-  componentDidMount(){
-    console.log("mounting filter bar")
-  }
-
-  componentDidUpdate(nextProps){
-    console.log("re-render filter bar")
-  }
-
   updateFilter = (data) => {
     let { filters, setParentState } = this.props
     filters[data.label] = data.value
@@ -43,7 +35,7 @@ export default class FilterBar extends React.PureComponent {
 
   render() {
     const quickFilterOptions = [
-      { key: 1, label: 'Errors', value: "error IS TRUE" },
+      { key: 1, label: 'Errors', value: "(error IS TRUE OR httpResponseCode NOT LIKE '2%%')" },
       { key: 2, label: 'Database', value: "databaseCallCount > 0" },
       { key: 3, label: 'External', value: "externalCallCount > 0" },
       { key: 4, label: 'Queues', value: "queueDuration is NOT NULL" },
@@ -52,6 +44,7 @@ export default class FilterBar extends React.PureComponent {
     return (
       <div>
         <div className="utility-bar">
+
           <div className="react-select-input-group">
             <label>Add Quick Filters</label>
             <Select
@@ -60,6 +53,13 @@ export default class FilterBar extends React.PureComponent {
                 classNamePrefix="react-select"
               />
           </div>
+
+          <div className="filter-button-right">
+            <Popup content='Pause / Resume Event Stream' 
+              trigger={<Button icon={this.props.enabled ? "pause" : "play"} className="filter-button" onClick={()=>this.props.setParentState({enabled:!this.props.enabled})} />} 
+            />
+          </div>
+
           {/* <AdvFilter setParentState={this.props.setParentState} getParentState={this.props.getParentState}/>
           <ColumnSelect setParentState={this.props.setParentState} getParentState={this.props.getParentState}/>
           <TimeBucket setParentState={this.props.setParentState} getParentState={this.props.getParentState}/> */}
