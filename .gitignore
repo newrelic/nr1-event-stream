@@ -1,2 +1,6 @@
-node_modules*
-tmp*
+.nos
+.idea
+dist
+node_modules
+coverage
+tmp

@@ -21,5 +21,5 @@ export const gqlNrqlQuery = (accountId, query, timeout) => {
 }
 
 export const nerdGraphQuery = async (query) => {
-    return (await NerdGraphQuery.query({query: gql`${query}`})).data
+  return (await NerdGraphQuery.query({query: gql`${query}`})).data
 }
