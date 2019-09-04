@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { nerdGraphQuery, nrdbQuery } from './lib/utils';
+import { nerdGraphQuery, nrdbQuery, uniqByPropMap } from './lib/utils';
 import EventTable from './components/event-table';
 import FilterBar from './components/filter-bar';
 import { Grid } from 'semantic-ui-react';
@@ -20,6 +20,7 @@ export default class MyNerdlet extends React.Component {
           entityGuid: null,
           events: [],
           eventLength: [],
+          keySet: [],
           enabled: true, 
           bucketMs: 15000, 
           filters: {},
@@ -105,9 +106,14 @@ export default class MyNerdlet extends React.Component {
     
           let data = await nerdGraphQuery(gql)
           let baseQuery = ""
+          let keySet = []
           switch(data.actor.entity.domain){
             case "APM":
                 baseQuery = `SELECT * FROM Transaction, TransactionError WHERE entityGuid = '${entityGuid}'`
+                keySet = await nrdbQuery(data.actor.entity.account.id, 'SELECT keyset() FROM Transaction, TransactionError')
+                keySet = keySet.map((k) => ({ title: k.key, type: k.type }))
+                const uniqueById = uniqByPropMap("title");
+                keySet = uniqueById(keySet);
                 break;
             case "BROWSER": // not supported yet
                 // baseQuery = `SELECT * FROM Mobile WHERE id = '${id}'`
@@ -116,7 +122,7 @@ export default class MyNerdlet extends React.Component {
               //
           }
 
-          await this.setState({ entityGuid, baseQuery, entity: data.actor.entity, accountId: data.actor.entity.account.id })
+          await this.setState({ entityGuid, baseQuery, entity: data.actor.entity, accountId: data.actor.entity.account.id, keySet })
           this.startTimer()
           // this.setState({ entityGuid, baseQuery, entity: data.actor.entity, accountId: data.actor.entity.account.id }, () => this.startTimer())
         } else {
@@ -137,7 +143,7 @@ export default class MyNerdlet extends React.Component {
             <Grid style={{height:"100%"}}>
               <Grid.Row>
                 <Grid.Column>
-                  <FilterBar filters={this.state.filters} enabled={this.state.enabled} setParentState={this.setParentState} getParentState={this.getParentState}/>
+                  <FilterBar filters={this.state.filters} keySet={this.state.keySet} enabled={this.state.enabled} setParentState={this.setParentState} getParentState={this.getParentState}/>
                 </Grid.Column>
               </Grid.Row>
 

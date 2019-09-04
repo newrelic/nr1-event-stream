@@ -23,3 +23,16 @@ export const gqlNrqlQuery = (accountId, query, timeout) => {
 export const nerdGraphQuery = async (query) => {
   return (await NerdGraphQuery.query({query: gql`${query}`})).data
 }
+
+export const uniqByPropMap = prop => arr =>
+  Array.from(
+    arr
+      .reduce(
+        (acc, item) => (
+          item && item[prop] && acc.set(item[prop], item),
+          acc
+        ), // using map (preserves ordering)
+        new Map()
+      )
+      .values()
+  );

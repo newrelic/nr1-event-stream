@@ -16,13 +16,20 @@
 }
 
 .filter-button{
-  background-color: #fafbfb !important;
-  padding: 16px !important;
+  padding-top: 9.5px !important;
+  padding-bottom: 9.5px;
+  padding-left: 14px;
 }
 
-.filter-button-right{
-  float: "right" !important;
+.filter-menu-right{
+  float: right !important;
   margin-right: 10px !important;
+
+  button{
+    margin-right:10px !important;
+    padding: 16px !important;
+    background-color: #fafbfb !important;
+  }
 }
 
 .vertical-center {
@@ -315,4 +322,29 @@
 .filters-container {
   margin-top: 0;
   padding: 8px 0 8px;
+}
+
+.ui.input>input {
+  margin: 0 !important;
+  width:100% !important;
+  max-width: 100% !important;
+  -webkit-box-flex: 1 !important;
+  -ms-flex: 1 0 auto !important;
+  flex: 1 0 auto !important;
+  outline: 0 !important;
+  -webkit-tap-highlight-color: rgba(255,255,255,0) !important;
+  text-align: left !important;
+  line-height: 1.21428571em !important;
+  font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif !important;
+  padding: .67857143em 1em !important;
+  background: #fff !important;
+  border: 1px solid rgba(34,36,38,.15) !important;
+  color: rgba(0,0,0,.87) !important;
+  border-radius: .28571429rem !important;
+  -webkit-transition: border-color .1s ease,-webkit-box-shadow .1s ease !important;
+  transition: border-color .1s ease,-webkit-box-shadow .1s ease !important;
+  transition: box-shadow .1s ease,border-color .1s ease !important;
+  transition: box-shadow .1s ease,border-color .1s ease,-webkit-box-shadow .1s ease !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
 }
