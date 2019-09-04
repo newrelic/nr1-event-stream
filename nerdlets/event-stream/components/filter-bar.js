@@ -1,6 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 import { Icon, Button, Popup, Modal, Search, Form, Divider, Label } from 'semantic-ui-react';
+import { navigation } from 'nr1';
 import _ from 'lodash';
 
 const initialState = { isLoading: false, results: [], value: "", type: "" }
@@ -11,6 +12,19 @@ function Filter({ attribute, value, removeFilter }) {
       {value} <Icon link name='close' />
     </span>
   </div>
+}
+
+function openChartBuilder(query, account) {
+  const nerdlet = {
+    id: 'wanda-data-exploration.nrql-editor',
+    urlState: {
+      initialActiveInterface: 'nrqlEditor',
+      initialAccountId: account,
+      initialNrqlValue: query,
+      isViewingQuery: true,
+    }
+  }
+  navigation.openOverlay(nerdlet)
 }
 
 export default class FilterBar extends React.PureComponent {
@@ -31,6 +45,7 @@ export default class FilterBar extends React.PureComponent {
     this.filterModal = this.filterModal.bind(this);
     this.handleResultSelect = this.handleResultSelect.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.filtersContainer = this.filtersContainer.bind(this);
   }
 
   handleResultSelect = (e, { result }) => {
@@ -72,12 +87,14 @@ export default class FilterBar extends React.PureComponent {
     const { keySet } = this.props
     const textOptions = [
       { key: 'e', text: '=', value: '=' },
+      { key: 'ne', text: '!=', value: '!=' },
       { key: 'l', text: 'LIKE', value: 'LIKE' },
       { key: 'in', text: 'IS NULL', value: 'IS NULL' },
       { key: 'inn', text: 'IS NOT NULL', value: 'IS NOT NULL' }
     ]
     const numericOptions = [
       { key: 'e', text: '=', value: '=' },
+      { key: 'ne', text: '!=', value: '!=' },
       { key: 'm', text: '>', value: '>' },
       { key: 'me', text: '>=', value: '>=' },
       { key: 'l', text: '<', value: '<' },
@@ -85,17 +102,39 @@ export default class FilterBar extends React.PureComponent {
       { key: 'is', text: 'IS NULL', value: 'IS NULL' },
       { key: 'inn', text: 'IS NOT NULL', value: 'IS NOT NULL' }
     ]
+    const booleanOptions = [
+      { key: 'is', text: 'IS', value: 'IS' },
+      { key: 'in', text: 'IS NOT', value: 'IS NOT' },
+      { key: 'isn', text: 'IS NULL', value: 'IS NULL' },
+      { key: 'inn', text: 'IS NOT NULL', value: 'IS NOT NULL' }
+    ]
 
     const addFilter = () => {
       let val = this.state.filterValue
-      if(isNaN(val)) val = `'${val}'`
-      let value = `\`${this.state.value}\` ${this.state.operator} ${val}`
-      this.updateFilter({label: value,value: value})
+      let operator = this.state.operator
+      if(isNaN(val) && operator != "IS" && operator != "IS NOT") val = `'${val}'`
+      let value = `\`${this.state.value}\` ${operator} ${val}`
+      this.updateFilter({label: value, value: value})
+    }
+
+    let selectedOptions = textOptions
+    switch(this.state.type){
+      case "numeric":
+          selectedOptions = numericOptions
+          break;
+      case "string":
+          selectedOptions = textOptions
+          break;
+      case "boolean":
+          selectedOptions = booleanOptions
+          break
+      default:
+        //
     }
 
     if(keySet.length == 0) return <Button><Icon name='spinner' loading/>Loading Filters</Button>
     return (
-        <Modal size="small" style={{height:"200px"}} closeIcon centered={false} trigger={<Button icon="filter" content="Filter"/>}>
+        <Modal size="small" style={{height:"200px"}} closeIcon centered={false} trigger={<Button icon="filter" content="Filter" style={{backgroundColor:"none"}}/>}>
         <Modal.Header>Filters</Modal.Header>
         <Modal.Content image>
           <Modal.Description>
@@ -122,7 +161,7 @@ export default class FilterBar extends React.PureComponent {
                   <Form.Select
                     fluid
                     label='Operator'
-                    options={this.state.type == "numeric" ? numericOptions : textOptions}
+                    options={selectedOptions}
                     width={3}
                     onChange={(e,d)=>this.setState({operator:d.value})}
                   />
@@ -130,10 +169,29 @@ export default class FilterBar extends React.PureComponent {
                 </Form.Group>
                 <Form.Button style={{float:"right"}} onClick={()=>addFilter()}>Add Filter</Form.Button>
               </Form>
+
           </Modal.Description>
         </Modal.Content>
+
+        <Modal.Actions>
+          {this.filtersContainer()}
+        </Modal.Actions>
       </Modal>
     )
+  }
+
+  filtersContainer(){
+    return  <div className="filters-container" style={{textAlign:"left"}}>
+      <h3 className="filters-header">Filters:</h3>
+
+      {Object.keys(this.props.filters).map((label)=>{
+        return <Filter 
+            key={`${label}/${this.props.filters[label]}`} 
+            attribute={label} 
+            value={label} 
+            removeFilter={()=>this.removeFilter(label)}/>
+        })}
+      </div>
   }
 
   render() {
@@ -159,27 +217,20 @@ export default class FilterBar extends React.PureComponent {
 
           <div className="filter-menu-right">
             {this.filterModal()}
+            <Popup content='View in Chart Builder' 
+              trigger={<Button icon="chart line" onClick={() => openChartBuilder(this.props.query, this.props.accountId)} content="View Query" />} 
+            />
             <Popup content='Pause / Resume Event Stream' 
               trigger={<Button style={{width:"80px"}} icon={this.props.enabled ? "pause" : "play"} onClick={()=>this.props.setParentState({enabled:!this.props.enabled})} content={this.props.enabled ? "Pause" : " Play"} />} 
             />
           </div>
 
-          {/* <AdvFilter setParentState={this.props.setParentState} getParentState={this.props.getParentState}/>
+          {/* 
           <ColumnSelect setParentState={this.props.setParentState} getParentState={this.props.getParentState}/>
           <TimeBucket setParentState={this.props.setParentState} getParentState={this.props.getParentState}/> */}
         </div>
 
-        <div className="filters-container">
-          <h3 className="filters-header">Filters:</h3>
-
-            {Object.keys(this.props.filters).map((label)=>{
-              return <Filter 
-                  key={`${label}/${this.props.filters[label]}`} 
-                  attribute={label} 
-                  value={label} 
-                  removeFilter={()=>this.removeFilter(label)}/>
-              })}
-        </div>
+        {this.filtersContainer()}
       </div>
     )
   }
