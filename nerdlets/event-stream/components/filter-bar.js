@@ -1,7 +1,8 @@
 import React from 'react';
 import Select from 'react-select';
-import { Icon, Button, Popup, Modal, Search, Form, Divider, Label } from 'semantic-ui-react';
+import { Icon, Button, Popup, Modal, Search, Form, Divider } from 'semantic-ui-react';
 import { navigation } from 'nr1';
+import { stringOptions, numericOptions, booleanOptions } from '../lib/metrics'
 import _ from 'lodash';
 
 const initialState = { isLoading: false, results: [], value: "", type: "" }
@@ -42,6 +43,7 @@ export default class FilterBar extends React.PureComponent {
       operator: ""
     }
     this.updateFilter = this.updateFilter.bind(this);
+    this.updateBucket = this.updateBucket.bind(this);
     this.removeFilter = this.removeFilter.bind(this);
     this.filterModal = this.filterModal.bind(this);
     this.handleResultSelect = this.handleResultSelect.bind(this);
@@ -69,6 +71,12 @@ export default class FilterBar extends React.PureComponent {
     }, 300)
   }
 
+  updateBucket = (data) => {
+    let { setParentState } = this.props
+    this.props.setParentState({"bucketMs":data})
+    this.forceUpdate()
+  }
+
   updateFilter = (data) => {
     let { filters, setParentState } = this.props
     filters[data.label] = data.value
@@ -86,29 +94,6 @@ export default class FilterBar extends React.PureComponent {
   filterModal(){
     const { isLoading, value, results } = this.state
     const { keySet } = this.props
-    const textOptions = [
-      { key: 'e', text: '=', value: '=' },
-      { key: 'ne', text: '!=', value: '!=' },
-      { key: 'l', text: 'LIKE', value: 'LIKE' },
-      { key: 'in', text: 'IS NULL', value: 'IS NULL' },
-      { key: 'inn', text: 'IS NOT NULL', value: 'IS NOT NULL' }
-    ]
-    const numericOptions = [
-      { key: 'e', text: '=', value: '=' },
-      { key: 'ne', text: '!=', value: '!=' },
-      { key: 'm', text: '>', value: '>' },
-      { key: 'me', text: '>=', value: '>=' },
-      { key: 'l', text: '<', value: '<' },
-      { key: 'le', text: '<=', value: '<=' },
-      { key: 'is', text: 'IS NULL', value: 'IS NULL' },
-      { key: 'inn', text: 'IS NOT NULL', value: 'IS NOT NULL' }
-    ]
-    const booleanOptions = [
-      { key: 'is', text: 'IS', value: 'IS' },
-      { key: 'in', text: 'IS NOT', value: 'IS NOT' },
-      { key: 'isn', text: 'IS NULL', value: 'IS NULL' },
-      { key: 'inn', text: 'IS NOT NULL', value: 'IS NOT NULL' }
-    ]
 
     const addFilter = () => {
       let val = this.state.filterValue
@@ -118,13 +103,13 @@ export default class FilterBar extends React.PureComponent {
       this.updateFilter({label: value, value: value})
     }
 
-    let selectedOptions = textOptions
+    let selectedOptions = stringOptions
     switch(this.state.type){
       case "numeric":
           selectedOptions = numericOptions
           break;
       case "string":
-          selectedOptions = textOptions
+          selectedOptions = stringOptions
           break;
       case "boolean":
           selectedOptions = booleanOptions
@@ -133,9 +118,9 @@ export default class FilterBar extends React.PureComponent {
         //
     }
 
-    if(keySet.length == 0) return <Button><Icon name='spinner' loading/>Loading Filters</Button>
+    if(keySet.length == 0) return <Button className="filter-button"><Icon name='spinner' loading/>Loading Filters</Button>
     return (
-        <Modal size="small" style={{height:"200px"}} closeIcon centered={false} trigger={<Button icon="filter" content="Filter" style={{backgroundColor:"none"}}/>}>
+        <Modal size="small" style={{height:"200px"}} closeIcon centered={false} trigger={<Button className="filter-button" icon="filter" content="Filter" style={{backgroundColor:"none"}}/>}>
         <Modal.Header>Filters</Modal.Header>
         <Modal.Content image>
           <Modal.Description>
@@ -203,32 +188,50 @@ export default class FilterBar extends React.PureComponent {
       { key: 4, label: 'Queues', value: "queueDuration is NOT NULL" },
     ]
 
+    const timeBucketOptions = [
+      { key: 1, label: '5 sec', value: 5000 },
+      { key: 2, label: '10 sec', value: 10000 },
+      { key: 3, label: '20 sec', value: 20000 },
+      { key: 4, label: '30 sec', value: 30000 },
+      { key: 5, label: '40 sec', value: 40000 },
+      { key: 6, label: '50 sec', value: 50000 },
+      { key: 7, label: '60 sec', value: 60000 }
+    ]
+
     return (
       <div>
         <div className="utility-bar">
 
-          <div className="react-select-input-group" style={{float:"left"}}>
+          <div className="react-select-input-group">
             <label>Add Quick Filters</label>
             <Select
                 options={quickFilterOptions}
                 onChange={this.updateFilter}
+                value={null}
                 classNamePrefix="react-select"
               />
           </div>
 
-          <div className="filter-menu-right">
+            <div className="flex-push"></div>
+
             {this.filterModal()}
             <Popup content='View in Chart Builder' 
-              trigger={<Button icon="chart line" onClick={() => openChartBuilder(this.props.query, this.props.accountId)} content="View Query" />} 
+              trigger={<Button className="filter-button" icon="chart line" onClick={() => openChartBuilder(this.props.query, this.props.accountId)} content="View Query" />} 
             />
-            <Popup content='Pause / Resume Event Stream' 
-              trigger={<Button style={{width:"80px"}} icon={this.props.enabled ? "pause" : "play"} onClick={()=>this.props.setParentState({enabled:!this.props.enabled})} content={this.props.enabled ? "Pause" : " Play"} />} 
-            />
-          </div>
 
-          {/* 
-          <ColumnSelect setParentState={this.props.setParentState} getParentState={this.props.getParentState}/>
-          <TimeBucket setParentState={this.props.setParentState} getParentState={this.props.getParentState}/> */}
+            <Popup content='Pause / Resume Event Stream' 
+              trigger={<Button className="filter-button" style={{width:"80px"}} icon={this.props.enabled ? "pause" : "play"} onClick={()=>this.props.setParentState({enabled:!this.props.enabled})} content={this.props.enabled ? "Pause" : " Play"} />} 
+            />
+
+            <div className="react-select-input-group" style={{width:"90px", textAlign:"center"}}>
+              <Popup content='Retain events for N seconds' trigger={<label>Time Bucket</label>}/>
+              <Select
+                  options={timeBucketOptions}
+                  onChange={this.updateBucket}
+                  value={this.props.bucketMs}
+                  classNamePrefix="react-select"
+                />
+            </div>
         </div>
 
         {this.filtersContainer()}

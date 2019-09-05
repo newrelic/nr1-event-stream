@@ -32,6 +32,12 @@
   }
 }
 
+.filter-button{
+  margin-right:10px !important;
+  padding: 16px !important;
+  background-color: #fafbfb !important;
+}
+
 .vertical-center {
   display: -ms-flexbox;
   display: -webkit-flex;
@@ -175,6 +181,26 @@
   margin-bottom: -16px;
 }
 
+.react-select-input-right {
+  margin-right:10px !important;
+
+  // position: relative;
+  // width: 100%;
+  max-width: 325px;
+  // margin-right: 8px;
+
+  label {
+    // position: absolute;
+    // top: 7px;
+    // left: 12px;
+    // z-index: 10;
+    font-size: 10px;
+    // text-transform: uppercase;
+    // letter-spacing: .25px;
+    // color: #6C797A;
+  }
+}
+
 .react-select-input-group {
   position: relative;
   width: 100%;
@@ -252,12 +278,16 @@
   display: inline-block;
 }
 
+.flex-push {
+  margin-left: auto;
+}
+
 .utility-bar {
   width: 100%;
   height: 60px;
   background-color: #EDEEEE;
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
   padding-left: 16px;

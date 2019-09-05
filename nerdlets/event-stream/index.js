@@ -22,7 +22,7 @@ export default class MyNerdlet extends React.Component {
           eventLength: [],
           keySet: [],
           enabled: true, 
-          bucketMs: 15000, 
+          bucketMs: { key: 2, label: '10 sec', value: 10000 }, 
           filters: {},
           previousIds: [],
           queryTracker: "",
@@ -72,7 +72,7 @@ export default class MyNerdlet extends React.Component {
               events = events.filter((event)=>{
                 let timestampDiff = currentTimestamp - event.timestamp
                 newIds.push(event.traceId)
-                return timestampDiff <= bucketMs
+                return timestampDiff <= bucketMs.value
               })
 
               eventLength.push(result.length)
@@ -144,7 +144,7 @@ export default class MyNerdlet extends React.Component {
             <Grid style={{height:"100%"}}>
               <Grid.Row>
                 <Grid.Column>
-                  <FilterBar filters={this.state.filters} query={this.state.queryTracker} accountId={this.state.entity.account.id} keySet={this.state.keySet} enabled={this.state.enabled} setParentState={this.setParentState}/>
+                  <FilterBar filters={this.state.filters} bucketMs={this.state.bucketMs} query={this.state.queryTracker} accountId={this.state.entity.account.id} keySet={this.state.keySet} enabled={this.state.enabled} setParentState={this.setParentState}/>
                 </Grid.Column>
               </Grid.Row>
 
