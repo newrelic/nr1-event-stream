@@ -1,6 +1,6 @@
 .nos
 .idea
-dist
-node_modules
+dist*
+node_modules*
 coverage
-tmp
+tmp*
