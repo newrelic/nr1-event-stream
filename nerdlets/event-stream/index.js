@@ -7,6 +7,24 @@ import { Grid } from 'semantic-ui-react';
 import { Sparklines, SparklinesLine, SparklinesSpots } from 'react-sparklines';
 import { APM_DEFAULT, APM_REQ } from './lib/metrics'
 
+function setQueryAttributes(columns){
+  let attributes = ""
+
+  for(let z=0;z<columns.length;z++){
+    if(columns[z].keys){
+      for(let y=0;y<columns[z].keys.length;y++){
+        attributes += columns[z].keys[y] + ","
+      }
+    }
+    if(columns[z].key){
+      attributes += columns[z].key + ","
+    }
+  }
+
+  if(attributes == "") return "*"
+  return "traceId,"+ attributes.slice(0, -1)
+}
+
 export default class MyNerdlet extends React.Component {
     static propTypes = {
         nerdletUrlState: PropTypes.object,
@@ -33,13 +51,14 @@ export default class MyNerdlet extends React.Component {
         }
         this.setParentState = this.setParentState.bind(this);
         this.getParentState = this.getParentState.bind(this);
+        this.loadEntity = this.loadEntity.bind(this);
         this.startTimer = this.startTimer.bind(this);
     }
 
-    componentDidMount(){
-        this.loadEntity()
-        let columns = [...APM_REQ, ...APM_DEFAULT]
-        this.setState({columns})
+    async componentDidMount(){
+      let columns = [...APM_REQ, ...APM_DEFAULT]
+      await this.setState({columns})
+      this.loadEntity()
     }
 
     componentDidUpdate({nerdletUrlState}) {
@@ -90,6 +109,7 @@ export default class MyNerdlet extends React.Component {
 
     async loadEntity() {
         const {entityGuid} = this.props.nerdletUrlState
+        const {columns} = this.state
 
         if(entityGuid) {
           // to work with mobile and browser apps, we need the 
@@ -115,7 +135,8 @@ export default class MyNerdlet extends React.Component {
           let keySet = []
           switch(data.actor.entity.domain){
             case "APM":
-                baseQuery = `SELECT * FROM Transaction, TransactionError WHERE entityGuid = '${entityGuid}'`
+                baseQuery = `SELECT ${setQueryAttributes(columns)} FROM Transaction, TransactionError WHERE entityGuid = '${entityGuid}'`
+                console.log(baseQuery)
                 keySet = await nrdbQuery(data.actor.entity.account.id, `SELECT keyset() FROM Transaction, TransactionError WHERE entityGuid = '${entityGuid}'`)
                 keySet = keySet.map((k) => ({ title: k.key, type: k.type }))
                 const uniqueById = uniqByPropMap("title");
