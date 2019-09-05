@@ -91,6 +91,16 @@ export default class MenuBar extends React.PureComponent {
     this.forceUpdate()
   }
 
+  columnModal(){
+    return <Modal closeIcon centered={false} trigger={<Button className="filter-button" icon="columns" content="Modify Columns" />}>
+      <Modal.Header>Modify Columns</Modal.Header>
+        <Modal.Content image>
+          <Modal.Description>
+          </Modal.Description>
+        </Modal.Content>
+    </Modal>
+  }
+
   filterModal(){
     const { isLoading, value, results, attributeSelected, filterValue, type, operator } = this.state
     const { keySet } = this.props
@@ -223,9 +233,9 @@ export default class MenuBar extends React.PureComponent {
             <div className="flex-push"></div>
 
             {this.filterModal()}
-            {/* <Popup content='Modify Columns' 
-              trigger={<Button className="filter-button" icon="columns" onClick={() => openChartBuilder(this.props.query, this.props.accountId)} content="Modify Columns" />} 
-            /> */}
+
+            {this.columnModal()}
+
             <Popup content='View in Chart Builder' 
               trigger={<Button className="filter-button" icon="chart line" onClick={() => openChartBuilder(this.props.query, this.props.accountId)} content="View Query" />} 
             />
