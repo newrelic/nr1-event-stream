@@ -19,6 +19,7 @@ function openChartBuilder(query, account) {
     id: 'wanda-data-exploration.nrql-editor',
     urlState: {
       initialActiveInterface: 'nrqlEditor',
+      initialChartType:'table',
       initialAccountId: account,
       initialNrqlValue: query,
       isViewingQuery: true,

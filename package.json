@@ -1,34 +1,34 @@
 {
-    "private": true,
-    "name": "event-stream",
-    "description": "Event Stream Nerdpack",
-    "version": "0.1.0",
-    "scripts": {
-        "start": "nr1 nerdpack:serve",
-        "test": "exit 0"
-    },
-    "nr1": {
-        "uuid": "baa80ecd-d60e-4b3f-8074-0afb7bf5d6ee",
-        "sdkVersion": 2
-    },
-    "dependencies": {
-        "graphql": "^14.5.3",
-        "graphql-tag": "^2.10.1",
-        "lodash": "^4.17.15",
-        "prop-types": "^15.6.2",
-        "react": "^16.6.3",
-        "react-dom": "^16.6.3",
-        "react-draggable": "^3.3.2",
-        "react-json-pretty": "^2.1.0",
-        "react-select": "^3.0.4",
-        "react-sparklines": "^1.7.0",
-        "react-virtualized": "^9.21.1",
-        "react-virtualized-auto-sizer": "^1.0.2",
-        "semantic-ui-react": "^0.88.0"
-    },
-    "browserslist": [
-        "last 2 versions",
-        "not ie < 11",
-        "not dead"
-    ]
+  "private": true,
+  "name": "event-stream",
+  "description": "Event Stream Nerdpack",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "nr1 nerdpack:serve",
+    "test": "exit 0"
+  },
+  "nr1": {
+    "uuid": "4d5f9fd8-f734-4488-bb16-2b148b33b3d3",
+    "sdkVersion": 2
+  },
+  "dependencies": {
+    "graphql": "^14.5.3",
+    "graphql-tag": "^2.10.1",
+    "lodash": "^4.17.15",
+    "prop-types": "^15.6.2",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-draggable": "^3.3.2",
+    "react-json-pretty": "^2.1.0",
+    "react-select": "^3.0.4",
+    "react-sparklines": "^1.7.0",
+    "react-virtualized": "^9.21.1",
+    "react-virtualized-auto-sizer": "^1.0.2",
+    "semantic-ui-react": "^0.88.0"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "not ie < 11",
+    "not dead"
+  ]
 }

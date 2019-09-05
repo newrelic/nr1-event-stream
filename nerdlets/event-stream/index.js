@@ -144,7 +144,7 @@ export default class MyNerdlet extends React.Component {
             <Grid style={{height:"100%"}}>
               <Grid.Row>
                 <Grid.Column>
-                  <FilterBar filters={this.state.filters} query={this.state.queryTracker} accountId={this.state.entity.account.id} keySet={this.state.keySet} enabled={this.state.enabled} setParentState={this.setParentState} getParentState={this.getParentState}/>
+                  <FilterBar filters={this.state.filters} query={this.state.queryTracker} accountId={this.state.entity.account.id} keySet={this.state.keySet} enabled={this.state.enabled} setParentState={this.setParentState}/>
                 </Grid.Column>
               </Grid.Row>
 
@@ -159,7 +159,7 @@ export default class MyNerdlet extends React.Component {
 
               <Grid.Row columns={16} stretched style={{height:"80%", paddingTop:"0px"}}>
                 <Grid.Column width={16}>
-                    <EventTable events={this.state.events} setParentState={this.setParentState} getParentState={this.getParentState}/>
+                    <EventTable events={this.state.events} query={this.state.queryTracker} accountId={this.state.entity.account.id} setParentState={this.setParentState} getParentState={this.getParentState}/>
                 </Grid.Column>
               </Grid.Row>
             </Grid>

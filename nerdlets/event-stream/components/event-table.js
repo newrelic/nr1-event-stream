@@ -1,7 +1,23 @@
 import React from 'react';
+import { Icon } from 'semantic-ui-react';
 import { AutoSizer, Column, Table } from 'react-virtualized'; 
-import { APM_REQ, APM_DEFAULT } from '../lib/metrics'
-import { rowRenderer } from './row-renderer'
+import { APM_REQ, APM_DEFAULT } from '../lib/metrics';
+import { rowRenderer } from './row-renderer';
+import { navigation } from 'nr1';
+
+function openChartBuilder(query, account) {
+  const nerdlet = {
+    id: 'wanda-data-exploration.nrql-editor',
+    urlState: {
+      initialActiveInterface: 'nrqlEditor',
+      initialChartType:'json',
+      initialAccountId: account,
+      initialNrqlValue: query,
+      isViewingQuery: true,
+    }
+  }
+  navigation.openOverlay(nerdlet)
+}
 
 export default class EventTable extends React.PureComponent {
 
@@ -13,6 +29,7 @@ export default class EventTable extends React.PureComponent {
       columns: []
     };
     this.determineColumnWidths = this.determineColumnWidths.bind(this);
+    this.createColumns = this.createColumns.bind(this);
   }
 
   componentDidMount(){
@@ -58,7 +75,9 @@ export default class EventTable extends React.PureComponent {
           if(column.key == "timestamp") value = new Date(value).toLocaleTimeString()
         }
 
-        return value
+        return column.key == "traceId" ? 
+                <Icon name='search' onClick={()=>openChartBuilder(this.props.query + ` AND traceId='${value}'`, this.props.accountId)}/>: 
+                value
       }
 
       const cellDataGetter = (data, column) => {
