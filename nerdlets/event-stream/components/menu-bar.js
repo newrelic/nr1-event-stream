@@ -163,7 +163,7 @@ export default class MenuBar extends React.PureComponent {
               {this.props.columns.length == 0 ? "None defined." : ""}
               <List divided relaxed>
                     {this.props.columns.map((metric,i)=>{
-                      if(i>2 && metric.key){
+                      if(i>1 && metric.key){
                         return <List.Item key={i}>
                                   <List.Icon onClick={()=>this.removeColumn(i)} name='close' size='small' verticalAlign='middle' style={{cursor:"pointer"}} />
                                   <List.Content>{metric.key}</List.Content>

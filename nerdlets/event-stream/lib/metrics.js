@@ -1,10 +1,5 @@
 export const APM_REQ = [
     {
-      label: "",
-      key: "traceId",
-      width: 20
-    },
-    {
       label: "TIME",
       key: "timestamp",
       width: 70
