@@ -1,9 +1,11 @@
 # Event Stream
 
 View and filter transactional events live.
-Supports: APM (Browser next.)
+Supports: APM (Transaction, TransactionError)
 
 Author: Kav Pather
+
+![screenshot](./screenshots/screenshot.png)
 
 ## Getting started
 
