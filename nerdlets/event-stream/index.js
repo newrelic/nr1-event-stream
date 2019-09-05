@@ -177,6 +177,8 @@ export default class MyNerdlet extends React.Component {
                       columns={this.state.columns} 
                       query={this.state.queryTracker} 
                       accountId={this.state.entity.account.id} 
+                      filters={this.state.filters} 
+                      keySet={this.state.keySet} 
                       setParentState={this.setParentState} 
                       getParentState={this.getParentState}/>
                 </Grid.Column>

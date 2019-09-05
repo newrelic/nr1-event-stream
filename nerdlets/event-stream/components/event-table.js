@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon, Modal, Button, Header } from 'semantic-ui-react';
+import { Icon, Modal, Button, Header, Popup } from 'semantic-ui-react';
 import { AutoSizer, Column, Table } from 'react-virtualized'; 
 import { APM_REQ, APM_DEFAULT } from '../lib/metrics';
 import { rowRenderer } from './row-renderer';
@@ -33,6 +33,8 @@ export default class EventTable extends React.PureComponent {
     };
     this.determineColumnWidths = this.determineColumnWidths.bind(this);
     this.openHostEntity = this.openHostEntity.bind(this);
+    this.updateFilter = this.updateFilter.bind(this);
+    this.addFilter = this.addFilter.bind(this);
   }
 
   async openHostEntity(hostname, accountId){
@@ -83,6 +85,28 @@ export default class EventTable extends React.PureComponent {
     this.setState({AVAILABLE_WIDTH_PER_COLUMN})
   }
 
+  addFilter = (key, val) => {
+    let { keySet } = this.props
+    let type = "string"
+    for(var z=0;z<keySet.length;z++){
+      if(keySet[z].title == key){
+        type = keySet[z].type
+        break
+      }
+    }
+
+    val = type == "string" || type == "" ? `'${val}'` : val
+    let value = `\`${key}\` = ${val}`
+    this.updateFilter({label: value, value: value})
+  }
+
+  updateFilter = (data) => {
+    let { filters, setParentState } = this.props
+    filters[data.label] = data.value
+    setParentState({"filters": filters})
+    this.forceUpdate()
+  }
+
   createColumns(columns){
     return columns.map((column, i)=>{
 
@@ -101,10 +125,24 @@ export default class EventTable extends React.PureComponent {
           case "traceId":
             return <Icon style={{cursor: "pointer"}} name='search' onClick={()=>openChartBuilder(this.props.query + ` AND traceId='${value}'`, this.props.accountId)}/>
           case "host":
-              return <span style={{color:"#357dbb", cursor: "pointer"}} title={value} onClick={()=>this.openHostEntity(value, this.props.accountId)}>{value}</span>
+              return <Popup basic hoverable trigger={<span style={{color:"#357dbb", cursor: "pointer"}} title={value}>{value}</span>} style={{padding:0, margin:0, width:10}}> 
+                      <Button style={{width:170,marginRight:0,borderRadius:0}} labelPosition="left" basic icon='search' content="View Entity" onClick={()=>this.openHostEntity(value, this.props.accountId)} /> 
+                      <Button style={{width:170,marginRight:0,borderRadius:0}} labelPosition="left" basic icon='add' content="Add to Query" onClick={()=>this.addFilter(column.key, value)} /> 
+                    </Popup>
           default:
-              if(data.rowData && data.rowData.traceId){
-                return <span style={{cursor: "pointer"}} title={value} onClick={()=>openChartBuilder(this.props.query + ` AND traceId='${data.rowData.traceId}'`, this.props.accountId)}>{value}</span>
+              if(column.keys){
+                for(var z=0;z<column.keys.length;z++){
+                  if(data.rowData[column.keys[z]]){
+                    column.key = column.keys[z]
+                    break
+                  }
+                }
+              }
+              if(column.key != "timestamp" && data.rowData && data.rowData.traceId){
+                return <Popup basic hoverable trigger={<span style={{cursor: "pointer"}} title={value}>{value}</span>} style={{padding:0, margin:0, width:10}}> 
+                          <Button style={{width:170,marginRight:0,borderRadius:0}} labelPosition="left" basic icon='search' content="View Event"  onClick={()=>openChartBuilder(this.props.query + ` AND traceId='${data.rowData.traceId}'`, this.props.accountId)} /> 
+                          <Button style={{width:170,marginRight:0,borderRadius:0}} labelPosition="left" basic icon='add' content="Add to Query" onClick={()=>this.addFilter(column.key, value)} /> 
+                        </Popup>
               }
         }
 

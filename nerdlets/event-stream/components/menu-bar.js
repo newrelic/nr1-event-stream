@@ -166,7 +166,7 @@ export default class MenuBar extends React.PureComponent {
                       if(i>1 && metric.key){
                         return <List.Item key={i}>
                                   <List.Icon onClick={()=>this.removeColumn(i)} name='close' size='small' verticalAlign='middle' style={{cursor:"pointer"}} />
-                                  <List.Content>{metric.key}</List.Content>
+                                  <List.Content>Key: {metric.key} - Label: {metric.label}</List.Content>
                                 </List.Item>
                       }
                     })}
