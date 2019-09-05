@@ -15,6 +15,11 @@
   margin-right: 0px !important;
 }
 
+.ui.search > .results {
+  overflow-y: auto !important;
+  max-height: 400px !important;
+}
+
 .filter-button{
   padding-top: 9.5px !important;
   padding-bottom: 9.5px;

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { nerdGraphQuery, nrdbQuery, uniqByPropMap } from './lib/utils';
 import EventTable from './components/event-table';
-import FilterBar from './components/filter-bar';
+import MenuBar from './components/menu-bar';
 import { Grid } from 'semantic-ui-react';
 import { Sparklines, SparklinesLine, SparklinesSpots } from 'react-sparklines';
 
@@ -57,7 +57,8 @@ export default class MyNerdlet extends React.Component {
               query += Object.keys(this.state.filters).map((filter)=>`AND ${this.state.filters[filter]} `).toString().replace(/,/g,"")
               if(queryTracker != query){
                 console.log(query)
-                await this.setState({queryTracker: query, events: []})
+                events = []
+                await this.setState({queryTracker: query})
               }
               query += ` AND traceId NOT IN (${"'"+previousIds.join("','") + "'"}) `
               query += `SINCE 2 seconds ago LIMIT 2000`
@@ -144,7 +145,7 @@ export default class MyNerdlet extends React.Component {
             <Grid style={{height:"100%"}}>
               <Grid.Row>
                 <Grid.Column>
-                  <FilterBar filters={this.state.filters} bucketMs={this.state.bucketMs} query={this.state.queryTracker} accountId={this.state.entity.account.id} keySet={this.state.keySet} enabled={this.state.enabled} setParentState={this.setParentState}/>
+                  <MenuBar filters={this.state.filters} bucketMs={this.state.bucketMs} query={this.state.queryTracker} accountId={this.state.entity.account.id} keySet={this.state.keySet} enabled={this.state.enabled} setParentState={this.setParentState}/>
                 </Grid.Column>
               </Grid.Row>
 

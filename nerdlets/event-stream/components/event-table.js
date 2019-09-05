@@ -3,6 +3,8 @@ import { Icon } from 'semantic-ui-react';
 import { AutoSizer, Column, Table } from 'react-virtualized'; 
 import { APM_REQ, APM_DEFAULT } from '../lib/metrics';
 import { rowRenderer } from './row-renderer';
+import { nerdGraphQuery } from '../lib/utils';
+
 import { navigation } from 'nr1';
 
 function openChartBuilder(query, account) {
@@ -17,6 +19,37 @@ function openChartBuilder(query, account) {
     }
   }
   navigation.openOverlay(nerdlet)
+}
+
+async function openHostEntity(hostname){
+  // attempt to fetch entity by host
+  let gql = `
+    {
+      actor {
+        entitySearch(query: "name IN ('${hostname}') AND domain IN ('INFRA')  AND type='HOST' AND reporting='true'") {
+          query
+          count
+          results {
+            entities {
+              guid
+            }
+          }
+        }
+      }
+  }`
+
+  let infraResult = await nerdGraphQuery(gql)
+  let entitySearchResults = ((((infraResult || {}).actor || {}).entitySearch || {}).results || {}).entities || []
+
+  if(entitySearchResults.length == 1){
+    let entity = {
+      guid: entitySearchResults[0].guid,
+      domain: 'INFRA',
+      type: 'HOST',
+    }
+    
+    navigation.openStackedEntity(entity);
+  }
 }
 
 export default class EventTable extends React.PureComponent {
@@ -75,9 +108,15 @@ export default class EventTable extends React.PureComponent {
           if(column.key == "timestamp") value = new Date(value).toLocaleTimeString()
         }
 
-        return column.key == "traceId" ? 
-                <Icon name='search' onClick={()=>openChartBuilder(this.props.query + ` AND traceId='${value}'`, this.props.accountId)}/>: 
-                value
+        switch(column.key){
+          case "traceId":
+            return <Icon name='search' onClick={()=>openChartBuilder(this.props.query + ` AND traceId='${value}'`, this.props.accountId)}/>
+          case "host":
+              return <span style={{color:"#357dbb", cursor: "pointer"}} title={value} onClick={()=>openHostEntity(value, this.props.accountId)}>{value}</span>
+        }
+
+        return value
+
       }
 
       const cellDataGetter = (data, column) => {
