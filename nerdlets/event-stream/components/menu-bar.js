@@ -1,8 +1,8 @@
 import React from 'react';
 import Select from 'react-select';
-import { Icon, Button, Popup, Modal, Search, Form } from 'semantic-ui-react';
+import { Icon, Button, Popup, Modal, Search, Form, List } from 'semantic-ui-react';
 import { navigation } from 'nr1';
-import { stringOptions, numericOptions, booleanOptions } from '../lib/metrics'
+import { stringOptions, numericOptions, booleanOptions, APM_REQ, APM_DEFAULT } from '../lib/metrics'
 import _ from 'lodash';
 
 const initialState = { isLoading: false, results: [], value: "", type: "" }
@@ -41,15 +41,20 @@ export default class MenuBar extends React.PureComponent {
       results: [],
       type: "",
       filterValue: "",
-      operator: ""
+      operator: "",
+      addColumnMultiplier: 1,
+      addColumnToFixed: null
     }
     this.updateFilter = this.updateFilter.bind(this);
     this.updateBucket = this.updateBucket.bind(this);
     this.removeFilter = this.removeFilter.bind(this);
     this.filterModal = this.filterModal.bind(this);
+    this.columnModal = this.columnModal.bind(this);
     this.handleResultSelect = this.handleResultSelect.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.filtersContainer = this.filtersContainer.bind(this);
+    this.updateColumns = this.updateColumns.bind(this);
+    this.removeColumn = this.removeColumn.bind(this);
   }
 
   handleResultSelect = (e, { result }) => {
@@ -91,11 +96,82 @@ export default class MenuBar extends React.PureComponent {
     this.forceUpdate()
   }
 
+  updateColumns = () => {
+    let { columns, setParentState } = this.props
+    let { attributeSelected, addColumnLabel, addColumnWidth, addColumnMultiplier, addColumnToFixed } = this.state
+    let column = {
+      key: attributeSelected,
+      label: addColumnLabel ? addColumnLabel : attributeSelected
+    }
+    if(addColumnWidth) column.width = addColumnWidth
+    if(addColumnMultiplier) column.multiply = addColumnMultiplier
+    columns.push(column)
+    setParentState({columns})
+    this.forceUpdate()
+  }
+
+  removeColumn = (i) => {
+    let { columns, setParentState } = this.props
+    columns.splice(i, 1);
+    setParentState({columns})
+    this.forceUpdate()
+  }
+
   columnModal(){
+    let { isLoading, results, value } = this.state
     return <Modal closeIcon centered={false} trigger={<Button className="filter-button" icon="columns" content="Modify Columns" />}>
       <Modal.Header>Modify Columns</Modal.Header>
         <Modal.Content image>
           <Modal.Description>
+            < Form>
+              <Form.Group widths='equal'>
+                <Form.Field width={6} error={!this.state.attributeSelected}>
+                  <Popup content='Select an attribute' trigger={<label>Attribute</label>} />
+                  <Search
+                    fluid
+                    style={{width:"100%"}}
+                    loading={isLoading}
+                    onResultSelect={this.handleResultSelect}
+                    onSearchChange={_.debounce(this.handleSearchChange, 500, {
+                      leading: true,
+                    })}
+                    results={results}
+                    value={value}
+                    icon={"search"}
+                    input={{ fluid: true }}
+                    />
+                  </Form.Field>
+
+                  <Form.Input width={4} fluid label='Label - optional' value={this.state.addColumnLabel} onChange={(e,d)=>this.setState({addColumnLabel:d.value})}/>
+                  <Form.Input width={4} fluid label='Width (px) - optional' value={this.state.addColumnWidth} onChange={(e,d)=>this.setState({addColumnWidth:d.value})}/>
+                </Form.Group>
+                <Form.Group style={{display: this.state.type != "numeric" ? "none" : ""}}>
+                  <Form.Input disabled={this.state.type != "numeric"} width={4} fluid label='Multiplier' value={this.state.addColumnMultiplier} onChange={(e,d)=>this.setState({addColumnMultiplier:d.value})}/>
+                  <Form.Input disabled={this.state.type != "numeric"} width={4} fluid label='Fix Decimals Places' value={this.state.addColumnToFixed} onChange={(e,d)=>this.setState({addColumnToFixed:d.value})}/>
+                </Form.Group>
+                <Button onClick={this.updateColumns} disabled={!this.state.attributeSelected} style={{float:"right",backgroundColor:"#edeeee",color:"black"}} >Add Column</Button>
+                <Button onClick={()=>this.props.setParentState({columns: [...APM_REQ, ...APM_DEFAULT]})} >Reset Columns</Button>
+
+              </Form>
+              {/* <h4>Default Columns</h4>
+              {APM_REQ.map((metric,i)=>{
+                if(i!=0){
+                  return <div>{metric.key}</div>
+                }
+              })} */}
+              <h4>Columns</h4>
+              {this.props.columns.length == 0 ? "None defined." : ""}
+              <List divided relaxed>
+                    {this.props.columns.map((metric,i)=>{
+                      if(i>2 && metric.key){
+                        return <List.Item key={i}>
+                                  <List.Icon onClick={()=>this.removeColumn(i)} name='close' size='small' verticalAlign='middle' style={{cursor:"pointer"}} />
+                                  <List.Content>{metric.key}</List.Content>
+                                </List.Item>
+                      }
+                    })}
+              </List>
+              
           </Modal.Description>
         </Modal.Content>
     </Modal>

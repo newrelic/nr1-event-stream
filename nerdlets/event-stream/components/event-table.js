@@ -32,14 +32,7 @@ export default class EventTable extends React.PureComponent {
       errorMsg:""
     };
     this.determineColumnWidths = this.determineColumnWidths.bind(this);
-    this.createColumns = this.createColumns.bind(this);
     this.openHostEntity = this.openHostEntity.bind(this);
-  }
-
-  componentDidMount(){
-    const columns = [...APM_REQ, ...APM_DEFAULT]
-    this.setState({columns})
-    this.determineColumnWidths(columns)
   }
 
   async openHostEntity(hostname, accountId){
@@ -150,7 +143,7 @@ export default class EventTable extends React.PureComponent {
       <AutoSizer>
         {({ height, width }) => {
           this.setState({TOTAL_WIDTH: width})
-          this.determineColumnWidths(this.state.columns)
+          this.determineColumnWidths(this.props.columns)
           return (
             <Table
               className="event-table"
@@ -165,7 +158,7 @@ export default class EventTable extends React.PureComponent {
               rowGetter={({ index }) => events[index]}
               rowRenderer={(data)=>rowRenderer(data, events)}
             >
-              {this.createColumns(this.state.columns)}
+              {this.createColumns(this.props.columns)}
             </Table>
         )}
         }

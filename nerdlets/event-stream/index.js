@@ -5,6 +5,7 @@ import EventTable from './components/event-table';
 import MenuBar from './components/menu-bar';
 import { Grid } from 'semantic-ui-react';
 import { Sparklines, SparklinesLine, SparklinesSpots } from 'react-sparklines';
+import { APM_DEFAULT, APM_REQ } from './lib/metrics'
 
 export default class MyNerdlet extends React.Component {
     static propTypes = {
@@ -27,7 +28,8 @@ export default class MyNerdlet extends React.Component {
           previousIds: [],
           queryTracker: "",
           queryStatus: "",
-          entity: {account:{id:null}}
+          entity: {account:{id:null}},
+          columns: []
         }
         this.setParentState = this.setParentState.bind(this);
         this.getParentState = this.getParentState.bind(this);
@@ -36,6 +38,8 @@ export default class MyNerdlet extends React.Component {
 
     componentDidMount(){
         this.loadEntity()
+        let columns = [...APM_REQ, ...APM_DEFAULT]
+        this.setState({columns})
     }
 
     componentDidUpdate({nerdletUrlState}) {
@@ -145,7 +149,15 @@ export default class MyNerdlet extends React.Component {
             <Grid style={{height:"100%"}}>
               <Grid.Row>
                 <Grid.Column>
-                  <MenuBar filters={this.state.filters} bucketMs={this.state.bucketMs} query={this.state.queryTracker} accountId={this.state.entity.account.id} keySet={this.state.keySet} enabled={this.state.enabled} setParentState={this.setParentState}/>
+                  <MenuBar 
+                    filters={this.state.filters} 
+                    columns={this.state.columns} 
+                    bucketMs={this.state.bucketMs} 
+                    query={this.state.queryTracker} 
+                    accountId={this.state.entity.account.id} 
+                    keySet={this.state.keySet} 
+                    enabled={this.state.enabled} 
+                    setParentState={this.setParentState}/>
                 </Grid.Column>
               </Grid.Row>
 
@@ -160,7 +172,13 @@ export default class MyNerdlet extends React.Component {
 
               <Grid.Row columns={16} stretched style={{height:"80%", paddingTop:"0px"}}>
                 <Grid.Column width={16}>
-                    <EventTable events={this.state.events} query={this.state.queryTracker} accountId={this.state.entity.account.id} setParentState={this.setParentState} getParentState={this.getParentState}/>
+                    <EventTable 
+                      events={this.state.events} 
+                      columns={this.state.columns} 
+                      query={this.state.queryTracker} 
+                      accountId={this.state.entity.account.id} 
+                      setParentState={this.setParentState} 
+                      getParentState={this.getParentState}/>
                 </Grid.Column>
               </Grid.Row>
             </Grid>
