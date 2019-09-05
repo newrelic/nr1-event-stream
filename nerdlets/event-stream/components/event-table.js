@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Modal, Button, Header } from 'semantic-ui-react';
 import { AutoSizer, Column, Table } from 'react-virtualized'; 
 import { APM_REQ, APM_DEFAULT } from '../lib/metrics';
 import { rowRenderer } from './row-renderer';
@@ -21,37 +21,6 @@ function openChartBuilder(query, account) {
   navigation.openOverlay(nerdlet)
 }
 
-async function openHostEntity(hostname){
-  // attempt to fetch entity by host
-  let gql = `
-    {
-      actor {
-        entitySearch(query: "name IN ('${hostname}') AND domain IN ('INFRA')  AND type='HOST' AND reporting='true'") {
-          query
-          count
-          results {
-            entities {
-              guid
-            }
-          }
-        }
-      }
-  }`
-
-  let infraResult = await nerdGraphQuery(gql)
-  let entitySearchResults = ((((infraResult || {}).actor || {}).entitySearch || {}).results || {}).entities || []
-
-  if(entitySearchResults.length == 1){
-    let entity = {
-      guid: entitySearchResults[0].guid,
-      domain: 'INFRA',
-      type: 'HOST',
-    }
-    
-    navigation.openStackedEntity(entity);
-  }
-}
-
 export default class EventTable extends React.PureComponent {
 
   constructor(props){
@@ -59,16 +28,51 @@ export default class EventTable extends React.PureComponent {
     this.state = {
       TOTAL_WIDTH: 0,
       AVAILABLE_WIDTH_PER_COLUMN: 0,
-      columns: []
+      columns: [],
+      errorMsg:""
     };
     this.determineColumnWidths = this.determineColumnWidths.bind(this);
     this.createColumns = this.createColumns.bind(this);
+    this.openHostEntity = this.openHostEntity.bind(this);
   }
 
   componentDidMount(){
     const columns = [...APM_REQ, ...APM_DEFAULT]
     this.setState({columns})
     this.determineColumnWidths(columns)
+  }
+
+  async openHostEntity(hostname){
+    // attempt to fetch entity by host
+    let gql = `
+      {
+        actor {
+          entitySearch(query: "name IN ('${hostname}') AND domain IN ('INFRA')  AND type='HOST' AND reporting='true'") {
+            query
+            count
+            results {
+              entities {
+                guid
+              }
+            }
+          }
+        }
+    }`
+  
+    let infraResult = await nerdGraphQuery(gql)
+    let entitySearchResults = ((((infraResult || {}).actor || {}).entitySearch || {}).results || {}).entities || []
+  
+    if(entitySearchResults.length == 1){
+      let entity = {
+        guid: entitySearchResults[0].guid,
+        domain: 'INFRA',
+        type: 'HOST',
+      }
+      
+      navigation.openStackedEntity(entity);
+    }else{
+      this.setState({"errorMsg":"Unable to find entity, have you installed Infrastructure?"})
+    }
   }
 
   determineColumnWidths(columns){
@@ -112,11 +116,15 @@ export default class EventTable extends React.PureComponent {
           case "traceId":
             return <Icon name='search' onClick={()=>openChartBuilder(this.props.query + ` AND traceId='${value}'`, this.props.accountId)}/>
           case "host":
-              return <span style={{color:"#357dbb", cursor: "pointer"}} title={value} onClick={()=>openHostEntity(value, this.props.accountId)}>{value}</span>
+            // containerIds have a length of 12
+            // would need to do an additional query to determine the entity but that would be the host instead
+            // consider switching this to just use straight nrql
+            if(value.length != 12){
+              return <span style={{color:"#357dbb", cursor: "pointer"}} title={value} onClick={()=>this.openHostEntity(value, this.props.accountId)}>{value}</span>
+            }
         }
 
         return value
-
       }
 
       const cellDataGetter = (data, column) => {
@@ -174,7 +182,19 @@ export default class EventTable extends React.PureComponent {
             </Table>
         )}
         }
-      </AutoSizer>    
+      </AutoSizer>  
+
+        <Modal basic open={this.state.errorMsg != ""}>
+          <Header icon='close' content='Error' />
+          <Modal.Content>
+              <h3>{this.state.errorMsg}</h3>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button onClick={()=>this.setState({errorMsg:""})} negative>
+              Dismiss
+            </Button>
+          </Modal.Actions>
+        </Modal>  
     </div>
   }
 }
