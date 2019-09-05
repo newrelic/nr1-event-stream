@@ -99,7 +99,7 @@ export default class EventTable extends React.PureComponent {
 
         switch(column.key){
           case "traceId":
-            return <Icon name='search' onClick={()=>openChartBuilder(this.props.query + ` AND traceId='${value}'`, this.props.accountId)}/>
+            return <Icon style={{cursor: "pointer"}} name='search' onClick={()=>openChartBuilder(this.props.query + ` AND traceId='${value}'`, this.props.accountId)}/>
           case "host":
               return <span style={{color:"#357dbb", cursor: "pointer"}} title={value} onClick={()=>this.openHostEntity(value, this.props.accountId)}>{value}</span>
         }
