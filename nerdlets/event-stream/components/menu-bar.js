@@ -274,22 +274,21 @@ export default class MenuBar extends React.PureComponent {
 
   render() {
     const quickFilterOptions = [
-      { key: 1, label: 'Errors', value: "(error IS TRUE OR httpResponseCode NOT LIKE '2%%')" },
+      { key: 1, label: 'Errors', value: "(error IS TRUE OR (httpResponseCode NOT LIKE '2%%' AND httpResponseCode NOT LIKE '3%%'))" },
       { key: 2, label: 'Database', value: "databaseCallCount > 0" },
       { key: 3, label: 'External', value: "externalCallCount > 0" },
       { key: 4, label: 'Queues', value: "queueDuration is NOT NULL" },
     ]
 
     const timeBucketOptions = [
-      { key: 1, label: '5 sec', value: 5000 },
-      { key: 2, label: '10 sec', value: 10000 },
-      { key: 3, label: '20 sec', value: 20000 },
-      { key: 4, label: '30 sec', value: 30000 },
-      { key: 5, label: '40 sec', value: 40000 },
-      { key: 6, label: '50 sec', value: 50000 },
-      { key: 7, label: '1 min', value: 60000 },
-      { key: 8, label: '2 min', value: 120000 },
-      { key: 9, label: '3 min', value: 180000 },
+      { key: 1, label: '30 sec', value: 30000 },
+      { key: 2, label: '40 sec', value: 40000 },
+      { key: 3, label: '50 sec', value: 50000 },
+      { key: 4, label: '1 min', value: 60000 },
+      { key: 5, label: '2 min', value: 120000 },
+      { key: 6, label: '3 min', value: 180000 },
+      { key: 7, label: '4 min', value: 240000 },
+      { key: 8, label: '5 min', value: 300000 },
     ]
 
     return (
@@ -321,7 +320,7 @@ export default class MenuBar extends React.PureComponent {
             />
 
             <div className="react-select-input-group" style={{width:"90px", textAlign:"center"}}>
-              <Popup content='Retain events for N seconds' trigger={<label>Time Bucket</label>}/>
+              <Popup content='Retain events for N seconds' trigger={<label>Retain for</label>}/>
               <Select
                   options={timeBucketOptions}
                   onChange={this.updateBucket}

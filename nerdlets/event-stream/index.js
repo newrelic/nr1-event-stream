@@ -23,7 +23,7 @@ export default class MyNerdlet extends React.Component {
           eventLength: [],
           keySet: [],
           enabled: true, 
-          bucketMs: { key: 2, label: '10 sec', value: 10000 }, 
+          bucketMs: { key: 1, label: '30 sec', value: 30000 }, 
           filters: {},
           previousIds: [],
           queryTracker: "",
@@ -116,7 +116,7 @@ export default class MyNerdlet extends React.Component {
           switch(data.actor.entity.domain){
             case "APM":
                 baseQuery = `SELECT * FROM Transaction, TransactionError WHERE entityGuid = '${entityGuid}'`
-                keySet = await nrdbQuery(data.actor.entity.account.id, 'SELECT keyset() FROM Transaction, TransactionError')
+                keySet = await nrdbQuery(data.actor.entity.account.id, `SELECT keyset() FROM Transaction, TransactionError WHERE entityGuid = '${entityGuid}'`)
                 keySet = keySet.map((k) => ({ title: k.key, type: k.type }))
                 const uniqueById = uniqByPropMap("title");
                 keySet = uniqueById(keySet);
