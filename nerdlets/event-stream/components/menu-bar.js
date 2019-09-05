@@ -1,6 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
-import { Icon, Button, Popup, Modal, Search, Form, Divider } from 'semantic-ui-react';
+import { Icon, Button, Popup, Modal, Search, Form } from 'semantic-ui-react';
 import { navigation } from 'nr1';
 import { stringOptions, numericOptions, booleanOptions } from '../lib/metrics'
 import _ from 'lodash';
@@ -53,7 +53,7 @@ export default class MenuBar extends React.PureComponent {
   }
 
   handleResultSelect = (e, { result }) => {
-    this.setState({ attributeSelected: result.title, type: result.type })
+    this.setState({ attributeSelected: result.title, type: result.type, value: result.title, operator: "" })
   }
 
   handleSearchChange = (e, { value }) => {
@@ -119,7 +119,7 @@ export default class MenuBar extends React.PureComponent {
     }
 
     if(keySet.length == 0) return <Button className="filter-button"><Icon name='spinner' loading/>Loading Filters</Button>
-    let addFilterEnabled = this.state.attributeSelected == "" || this.state.operator == "" || this.state.filterValue == ""
+    let addFilterEnabled = !this.state.attributeSelected || !this.state.operator || !this.state.filterValue
     return (
         <Modal size="small" style={{height:"200px"}} closeIcon centered={false} trigger={<Button className="filter-button" icon="filter" content="Filter" style={{backgroundColor:"none"}}/>}>
         <Modal.Header>Add Filters</Modal.Header>
@@ -129,7 +129,7 @@ export default class MenuBar extends React.PureComponent {
               <Form>
                 <Form.Group widths='equal'>
 
-                  <Form.Field width={6} error={this.state.attributeSelected == ""}>
+                  <Form.Field width={6} error={!this.state.attributeSelected}>
                     <Popup content='Select an attribute' trigger={<label>Attribute</label>} />
 
                     <Search
@@ -149,13 +149,14 @@ export default class MenuBar extends React.PureComponent {
 
                   <Form.Select
                     fluid
-                    error={this.state.operator == ""}
+                    error={!this.state.operator}
                     label='Operator'
                     options={selectedOptions}
+                    value={this.state.operator}
                     width={3}
                     onChange={(e,d)=>this.setState({operator:d.value})}
                   />
-                  <Form.Input error={this.state.filterValue == ""} fluid label='Value' value={this.state.filterValue} width={6} onChange={(e,d)=>this.setState({filterValue:d.value})}/>
+                  <Form.Input error={!this.state.filterValue} fluid label='Value' value={this.state.filterValue} width={6} onChange={(e,d)=>this.setState({filterValue:d.value})}/>
                 </Form.Group>
                 
                 <Form.Button disabled={addFilterEnabled} style={{float:"right",backgroundColor:"#edeeee",color:"black"}} onClick={()=>addFilter()}>Add Filter</Form.Button>
@@ -200,7 +201,9 @@ export default class MenuBar extends React.PureComponent {
       { key: 4, label: '30 sec', value: 30000 },
       { key: 5, label: '40 sec', value: 40000 },
       { key: 6, label: '50 sec', value: 50000 },
-      { key: 7, label: '60 sec', value: 60000 }
+      { key: 7, label: '1 min', value: 60000 },
+      { key: 8, label: '2 min', value: 120000 },
+      { key: 9, label: '3 min', value: 180000 },
     ]
 
     return (
