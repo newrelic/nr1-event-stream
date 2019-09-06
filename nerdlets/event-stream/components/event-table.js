@@ -85,8 +85,9 @@ export default class EventTable extends React.PureComponent {
     this.setState({AVAILABLE_WIDTH_PER_COLUMN})
   }
 
-  addFilter = (key, val) => {
+  addFilter = (key, val, originalVal) => {
     let { keySet } = this.props
+    let operator = "="
     let type = "string"
     for(var z=0;z<keySet.length;z++){
       if(keySet[z].title == key){
@@ -95,8 +96,12 @@ export default class EventTable extends React.PureComponent {
       }
     }
 
-    val = type == "string" || type == "" ? `'${val}'` : val
-    let value = `\`${key}\` = ${val}`
+    if(type == "string" || type == "") val = `'${val}'`;
+    if(type == "numeric"){ 
+      operator = ">=" 
+      val = originalVal
+    }
+    let value = `\`${key}\` ${operator} ${val}`;
     this.updateFilter({label: value, value: value})
   }
 
@@ -141,7 +146,7 @@ export default class EventTable extends React.PureComponent {
               if(column.key != "timestamp" && data.rowData && data.rowData.traceId){
                 return <Popup basic hoverable trigger={<span style={{cursor: "pointer"}} title={value}>{value}</span>} style={{padding:0, margin:0, width:10}}> 
                           <Button style={{width:170,marginRight:0,borderRadius:0}} labelPosition="left" basic icon='search' content="View Event"  onClick={()=>openChartBuilder(this.props.query + ` AND traceId='${data.rowData.traceId}'`, this.props.accountId)} /> 
-                          <Button style={{width:170,marginRight:0,borderRadius:0}} labelPosition="left" basic icon='add' content="Add to Query" onClick={()=>this.addFilter(column.key, value)} /> 
+                          <Button style={{width:170,marginRight:0,borderRadius:0}} labelPosition="left" basic icon='add' content="Add to Query" onClick={()=>this.addFilter(column.key, value, data.cellData)} /> 
                         </Popup>
               }
         }

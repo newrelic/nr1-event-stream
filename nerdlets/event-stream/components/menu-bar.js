@@ -126,7 +126,7 @@ export default class MenuBar extends React.PureComponent {
             < Form>
               <Form.Group widths='equal'>
                 <Form.Field width={6} error={!this.state.attributeSelected}>
-                  <Popup content='Select an attribute' trigger={<label>Attribute</label>} />
+                  <Popup basic content='Select an attribute' trigger={<label>Attribute</label>} />
                   <Search
                     fluid
                     style={{width:"100%"}}
@@ -216,7 +216,7 @@ export default class MenuBar extends React.PureComponent {
                 <Form.Group widths='equal'>
 
                   <Form.Field width={6} error={!this.state.attributeSelected}>
-                    <Popup content='Select an attribute' trigger={<label>Attribute</label>} />
+                    <Popup basic content='Select an attribute' trigger={<label>Attribute</label>} />
 
                     <Search
                       fluid
@@ -291,6 +291,11 @@ export default class MenuBar extends React.PureComponent {
       { key: 8, label: '5 min', value: 300000 },
     ]
 
+    const handleClick = () => {
+      if(this.props.enabled) this.props.setParentState({enabled:false})
+      if(!this.props.enabled) this.props.setParentState({enabled:true, events:[]})
+    }
+
     return (
       <div>
         <div className="utility-bar">
@@ -311,16 +316,16 @@ export default class MenuBar extends React.PureComponent {
 
             {this.columnModal()}
 
-            <Popup content='View in Chart Builder' 
+            <Popup basic content='View in Chart Builder' 
               trigger={<Button className="filter-button" icon="chart line" onClick={() => openChartBuilder(this.props.query, this.props.accountId)} content="View Query" />} 
             />
 
-            <Popup content='Pause / Resume Event Stream' 
-              trigger={<Button className="filter-button" style={{width:"80px"}} icon={this.props.enabled ? "pause" : "play"} onClick={()=>this.props.setParentState({enabled:!this.props.enabled})} content={this.props.enabled ? "Pause" : " Play"} />} 
+            <Popup basic content='Pause / Resume Event Stream' 
+              trigger={<Button className="filter-button" style={{width:"80px"}} icon={this.props.enabled ? "pause" : "play"} onClick={handleClick} content={this.props.enabled ? "Pause" : " Play"} />} 
             />
 
             <div className="react-select-input-group" style={{width:"90px", textAlign:"center"}}>
-              <Popup content='Retain events for N seconds' trigger={<label>Retain for</label>}/>
+              <Popup basic content='Retain events for N seconds' trigger={<label>Retain for</label>}/>
               <Select
                   options={timeBucketOptions}
                   onChange={this.updateBucket}
