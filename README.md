@@ -1,28 +1,36 @@
-# Event Stream
+# nr1-event-stream
 
-View and filter transactional events live.
+![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-event-stream?include_prereleases&sort=semver) ![AppVeyor](https://img.shields.io/appveyor/ci/newrelic/nr1-event-stream) [![Snyk](https://snyk.io/test/github/newrelic/nr1-event-stream/badge.svg)](https://snyk.io/test/github/newrelic/nr1-event-stream)
+
+## Usage
+
+Event Stream - View and filter transactional events live.
 Supports: APM (Transaction, TransactionError)
 
-Author: Kav Pather
-
-![screenshot](./screenshots/screenshot.png)
+![Screenshot](./screenshots/screenshot.png)
 
 ## Open Source License
 
 This project is distributed under the [Apache 2 license](LICENSE).
 
+## What do you need to make this work?
+
+<!-- TO DO -->
+
 ## Getting started
 
-Run the following scripts:
+Clone this repository and run the following scripts:
 
-```
+```bash
+git clone https://github.com/newrelic/nr1-event-stream.git
+cd nr1-event-stream
 npm install
 npm start
 ```
 
-Visit https://one.newrelic.com/?nerdpacks=local, navigate to an application and click Event Stream, and :sparkles:
+Visit [https://one.newrelic.com/?nerdpacks=local](https://one.newrelic.com/?nerdpacks=local), navigate to the Nerdpack, and :sparkles:
 
-# Deploying this Nerdpack
+## Deploying this Nerdpack
 
 Open a command prompt in the nerdpack's directory and run the following commands.
 
@@ -35,26 +43,26 @@ nr1 nerdpack:deploy [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
 nr1 nerdpack:subscribe [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
 ```
 
-Visit https://one.newrelic.com, navigate to the Nerdpack, and :sparkles:
+Visit [https://one.newrelic.com](https://one.newrelic.com), navigate to the Nerdpack, and :sparkles:
 
-# Support
+## Support
 
 New Relic has open-sourced this project. This project is provided AS-IS WITHOUT WARRANTY OR SUPPORT, although you can report issues and contribute to the project here on GitHub.
 
 _Please do not report issues with this software to New Relic Global Technical Support._
 
-## Community
+### Community
 
 New Relic hosts and moderates an online forum where customers can interact with New Relic employees as well as other customers to get help and share best practices. Like all official New Relic open source projects, there's a related Community topic in the New Relic Explorer's Hub. You can find this project's topic/threads here:
 
-https://discuss.newrelic.com/c/build-on-new-relic/nr1-event-stream
+[https://discuss.newrelic.com/c/build-on-new-relic/nr1-event-stream](https://discuss.newrelic.com/c/build-on-new-relic/nr1-event-stream)
 *(Note: URL subject to change before GA)*
 
-## Issues / Enhancement Requests
+### Issues / Enhancement Requests
 
-Issues and enhancement requests can be submitted in the [Issues tab of this repository](https://github.com/newrelic/nr1-event-stream/issues). Please search for and review the existing open issues before submitting a new issue.
+Issues and enhancement requests can be submitted in the [Issues tab of this repository](../../issues). Please search for and review the existing open issues before submitting a new issue.
 
-# Contributing
+## Contributing
 
 Contributions are welcome (and if you submit a Enhancement Request, expect to be invited to contribute it yourself :grin:). Please review our [Contributors Guide](CONTRIBUTING.md).
 
