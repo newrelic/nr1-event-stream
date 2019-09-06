@@ -73,7 +73,8 @@ export default class MyNerdlet extends React.Component {
           if(this.state.enabled && this.state.queryStatus != "start"){
               await this.setState({queryStatus: "start"})
 
-              let { entity, baseQuery, bucketMs, previousIds, events, eventLength, queryTracker } = this.state
+              let { entity, entityGuid, bucketMs, previousIds, events, eventLength, queryTracker, columns } = this.state
+              let baseQuery = `SELECT ${setQueryAttributes(columns)} FROM Transaction, TransactionError WHERE entityGuid = '${entityGuid}'`
 
               // do not query ids that have already been found
               let query = `${baseQuery} `
@@ -108,8 +109,8 @@ export default class MyNerdlet extends React.Component {
   }
 
     async loadEntity() {
-        const {entityGuid} = this.props.nerdletUrlState
-        const {columns} = this.state
+        let {entityGuid} = this.props.nerdletUrlState
+        let {columns} = this.state
 
         if(entityGuid) {
           // to work with mobile and browser apps, we need the 
