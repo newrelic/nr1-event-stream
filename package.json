@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "event-stream",
+  "name": "nr1-event-stream",
   "description": "Event Stream Nerdpack",
   "version": "0.1.0",
   "scripts": {
