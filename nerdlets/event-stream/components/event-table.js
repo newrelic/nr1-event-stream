@@ -50,13 +50,7 @@ export default class EventTable extends React.PureComponent {
     }
 
     if(entityGuid){
-      let entity = {
-        guid: entityGuid,
-        domain: 'INFRA',
-        type: 'HOST',
-      }
-        
-      navigation.openStackedEntity(entity);
+      navigation.openStackedEntity(entityGuid);
     }else{
       this.setState({"errorMsg":`Unable to find entityGuid for ${hostname}, have you installed Infrastructure?`})
     }
