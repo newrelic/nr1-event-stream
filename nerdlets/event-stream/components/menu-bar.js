@@ -301,8 +301,10 @@ export default class MenuBar extends React.PureComponent {
           <Table compact striped color="blue">
             <Table.Header>
               <Table.Row>
+                <Table.HeaderCell>Date</Table.HeaderCell>
                 <Table.HeaderCell>Start</Table.HeaderCell>
                 <Table.HeaderCell>End</Table.HeaderCell>
+                <Table.HeaderCell>Time (Sec)</Table.HeaderCell>
                 <Table.HeaderCell></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
@@ -312,8 +314,10 @@ export default class MenuBar extends React.PureComponent {
                 let startMs = snapshot.document.t-snapshot.document.b.value
                 let query = `${snapshot.document.q} SINCE ${startMs} UNTIL ${snapshot.document.t} LIMIT MAX`
                 return <Table.Row>
-                  <Table.Cell>{new Date(startMs).toLocaleString()}</Table.Cell>
-                  <Table.Cell>{new Date(snapshot.document.t).toLocaleString()}</Table.Cell>
+                  <Table.Cell>{new Date(startMs).toLocaleDateString()}</Table.Cell>
+                  <Table.Cell>{new Date(startMs).toLocaleTimeString()}</Table.Cell>
+                  <Table.Cell>{new Date(snapshot.document.t).toLocaleTimeString()}</Table.Cell>
+                  <Table.Cell>{snapshot.document.b.value/1000}</Table.Cell>
                   <Table.Cell>
                     <Button icon="chart line" onClick={() => openChartBuilder(query, this.props.entity.account.id)} content="View" style={{float:"left"}}/>
                     <Button icon="chart line" onClick={() => this.deleteSnapshot(snapshot)} content="Delete" negative style={{float:"right"}} />

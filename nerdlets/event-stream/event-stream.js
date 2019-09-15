@@ -2,7 +2,7 @@ import React from 'react';
 import { nerdGraphQuery, nrdbQuery, uniqByPropMap, getCollection } from './lib/utils';
 import EventTable from './components/event-table';
 import MenuBar from './components/menu-bar';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Dimmer, Loader } from 'semantic-ui-react';
 import { Sparklines, SparklinesLine, SparklinesSpots } from 'react-sparklines';
 import { APM_DEFAULT, APM_REQ } from './lib/metrics'
 
@@ -41,7 +41,9 @@ export default class EventStream extends React.Component {
           queryStatus: "",
           entity: {account:{id:null}},
           columns: [],
-          snapshots: []
+          snapshots: [],
+          loading: false,
+          started: false
         }
         this.setParentState = this.setParentState.bind(this);
         this.getParentState = this.getParentState.bind(this);
@@ -74,15 +76,16 @@ export default class EventStream extends React.Component {
           if(this.state.enabled && this.state.queryStatus != "start"){
               await this.setState({queryStatus: "start"})
 
-              let { entity, entityGuid, bucketMs, previousIds, events, eventLength, queryTracker, columns } = this.state
+              let { entity, entityGuid, bucketMs, previousIds, events, eventLength, queryTracker, columns, started } = this.state
               let baseQuery = `SELECT ${setQueryAttributes(columns)} FROM Transaction, TransactionError WHERE entityGuid = '${entityGuid}'`
 
               // do not query ids that have already been found
               let query = `${baseQuery} `
               query += Object.keys(this.state.filters).map((filter)=>`AND ${this.state.filters[filter]} `).toString().replace(/,/g,"")
               if(queryTracker != query){
-                console.log(query)
+                console.log(`NRDB Query: ${query}`)
                 events = []
+                eventLength = []
                 await this.setState({queryTracker: query})
               }
               query += ` AND traceId NOT IN (${"'"+previousIds.join("','") + "'"}) `
@@ -105,11 +108,14 @@ export default class EventStream extends React.Component {
 
               if(eventLength.length > 25) eventLength.unshift(); 
               await this.setState({events, eventLength, previousIds: newIds, queryStatus: "end" })
+              if(!started) await this.setState({started: true})
           }
       },1500);
   }
 
     async loadEntity() {
+        await this.setState({loading: true})
+
         let {entityGuid} = this.props.nerdletUrlState
         let {columns} = this.state
 
@@ -138,7 +144,7 @@ export default class EventStream extends React.Component {
           switch(data.actor.entity.domain){
             case "APM":
                 baseQuery = `SELECT ${setQueryAttributes(columns)} FROM Transaction, TransactionError WHERE entityGuid = '${entityGuid}'`
-                console.log(baseQuery)
+                console.log(`NRDB Base Query: ${baseQuery}`)
                 keySet = await nrdbQuery(data.actor.entity.account.id, `SELECT keyset() FROM Transaction, TransactionError WHERE entityGuid = '${entityGuid}'`)
                 keySet = keySet.map((k) => ({ title: k.key, type: k.type }))
                 const uniqueById = uniqByPropMap("title");
@@ -153,11 +159,11 @@ export default class EventStream extends React.Component {
 
           await this.setState({ entityGuid, baseQuery, entity: data.actor.entity, accountId: data.actor.entity.account.id, keySet })
           this.startTimer()
-          // this.setState({ entityGuid, baseQuery, entity: data.actor.entity, accountId: data.actor.entity.account.id }, () => this.startTimer())
         } else {
           await this.setState({entity: null})
         }
-      }
+        await this.setState({loading: false})
+    }
 
     setParentState(data){
       this.setState(data)
@@ -197,15 +203,20 @@ export default class EventStream extends React.Component {
 
               <Grid.Row columns={16} stretched style={{height:"80%", paddingTop:"0px"}}>
                 <Grid.Column width={16}>
+                    {this.state.loading && !this.state.started ? 
+                      <Dimmer active={this.state.loading}>
+                        <Loader size="large">Loading Entity</Loader>
+                      </Dimmer> :
                     <EventTable 
-                      events={this.state.events} 
-                      columns={this.state.columns} 
-                      query={this.state.queryTracker} 
-                      accountId={this.state.entity.account.id} 
-                      filters={this.state.filters} 
-                      keySet={this.state.keySet} 
-                      setParentState={this.setParentState} 
-                      getParentState={this.getParentState}/>
+                        events={this.state.events} 
+                        columns={this.state.columns} 
+                        query={this.state.queryTracker} 
+                        accountId={this.state.entity.account.id} 
+                        filters={this.state.filters} 
+                        keySet={this.state.keySet} 
+                        setParentState={this.setParentState} 
+                        getParentState={this.getParentState}/>
+                    }
                 </Grid.Column>
               </Grid.Row>
             </Grid>
