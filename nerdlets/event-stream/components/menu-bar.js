@@ -329,7 +329,7 @@ export default class MenuBar extends React.PureComponent {
 
   render() {
     const quickFilterOptions = [
-      { key: 1, label: 'Errors', value: "(error IS TRUE OR (httpResponseCode NOT LIKE '2%%' AND httpResponseCode NOT LIKE '3%%'))" },
+      { key: 1, label: 'Errors', value: "(error IS TRUE OR (httpResponseCode NOT LIKE '2%%' AND httpResponseCode NOT LIKE '3%%') OR error.message != '')" },
       { key: 2, label: 'Database', value: "databaseCallCount > 0" },
       { key: 3, label: 'External', value: "externalCallCount > 0" },
       { key: 4, label: 'Queues', value: "queueDuration is NOT NULL" },
