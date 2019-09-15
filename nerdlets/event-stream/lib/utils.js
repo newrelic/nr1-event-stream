@@ -1,4 +1,4 @@
-import { NerdGraphQuery } from 'nr1';
+import { NerdGraphQuery, UserStorageQuery, UserStorageMutation } from 'nr1';
 import gql from 'graphql-tag';
 
 export const nrdbQuery = async (accountId, query, timeout) => {
@@ -36,3 +36,28 @@ export const uniqByPropMap = prop => arr =>
       )
       .values()
   );
+
+export const getCollection = async (collection) => {
+    let result = await UserStorageQuery.query({ collection: collection })
+    let collectionResult = (result || {}).data || []
+    return collectionResult
+}
+
+export const writeDocument = async (collection, documentId, payload) => {
+  let result = await UserStorageMutation.mutate({
+                  actionType: UserStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+                  collection: collection,
+                  documentId: documentId,
+                  document: payload
+                })
+  return result
+}
+
+export const deleteDocument = async (collection, documentId) => {
+  let result = await UserStorageMutation.mutate({
+                  actionType: UserStorageMutation.ACTION_TYPE.DELETE_DOCUMENT,
+                  collection: collection,
+                  documentId: documentId
+                })
+  return result
+}

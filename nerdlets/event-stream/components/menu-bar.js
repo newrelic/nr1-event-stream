@@ -1,8 +1,9 @@
 import React from 'react';
 import Select from 'react-select';
-import { Icon, Button, Popup, Modal, Search, Form, List } from 'semantic-ui-react';
+import { Icon, Button, Popup, Modal, Search, Form, List, Table } from 'semantic-ui-react';
 import { navigation } from 'nr1';
 import { stringOptions, numericOptions, booleanOptions, APM_REQ, APM_DEFAULT } from '../lib/metrics'
+import { writeDocument, deleteDocument } from '../lib/utils'
 import _ from 'lodash';
 
 const initialState = { isLoading: false, results: [], value: "", type: "" }
@@ -55,6 +56,9 @@ export default class MenuBar extends React.PureComponent {
     this.filtersContainer = this.filtersContainer.bind(this);
     this.updateColumns = this.updateColumns.bind(this);
     this.removeColumn = this.removeColumn.bind(this);
+    this.viewSnapshots = this.viewSnapshots.bind(this);
+    this.writeSnapshot = this.writeSnapshot.bind(this);
+    this.deleteSnapshot = this.deleteSnapshot.bind(this);
   }
 
   handleResultSelect = (e, { result }) => {
@@ -272,6 +276,57 @@ export default class MenuBar extends React.PureComponent {
       </div>
   }
 
+  async writeSnapshot(query, entity, bucketMs){
+    let snapshot = {
+        t: new Date().getTime(),
+        e: entity,
+        q: query,
+        b: bucketMs
+    }
+    await writeDocument("eventStreamSnapshots", `ss_${snapshot.t}_${entity.domain}`, snapshot)
+    this.props.fetchSnapshots()
+  }
+
+  async deleteSnapshot(snapshot){
+    await deleteDocument("eventStreamSnapshots", snapshot.id)
+    this.props.fetchSnapshots()
+  }
+
+  viewSnapshots(){
+    return (
+      this.props.snapshots.length > 0 ?
+      <Modal size="small" style={{height:"200px"}} closeIcon centered={false} trigger={<Button className="filter-button" icon="camera" content={`View Snapshots (${this.props.snapshots.length})`} style={{backgroundColor:"none"}}/>}>
+        <Modal.Header>Snapshots</Modal.Header>
+        <Modal.Content style={{padding:"10px"}}>
+          <Table compact striped color="blue">
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>Start</Table.HeaderCell>
+                <Table.HeaderCell>End</Table.HeaderCell>
+                <Table.HeaderCell></Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+
+            <Table.Body>
+              {this.props.snapshots.map((snapshot)=>{
+                let startMs = snapshot.document.t-snapshot.document.b.value
+                let query = `${snapshot.document.q} SINCE ${startMs} UNTIL ${snapshot.document.t} LIMIT MAX`
+                return <Table.Row>
+                  <Table.Cell>{new Date(startMs).toLocaleString()}</Table.Cell>
+                  <Table.Cell>{new Date(snapshot.document.t).toLocaleString()}</Table.Cell>
+                  <Table.Cell>
+                    <Button icon="chart line" onClick={() => openChartBuilder(query, this.props.entity.account.id)} content="View" style={{float:"left"}}/>
+                    <Button icon="chart line" onClick={() => this.deleteSnapshot(snapshot)} content="Delete" negative style={{float:"right"}} />
+                  </Table.Cell>
+                </Table.Row>
+              })}
+            </Table.Body>
+          </Table>
+        </Modal.Content>
+      </Modal> : <Button className="filter-button" disabled icon="camera" content="View Snapshots" style={{backgroundColor:"none"}}/> 
+    )
+  }
+
   render() {
     const quickFilterOptions = [
       { key: 1, label: 'Errors', value: "(error IS TRUE OR (httpResponseCode NOT LIKE '2%%' AND httpResponseCode NOT LIKE '3%%'))" },
@@ -310,29 +365,34 @@ export default class MenuBar extends React.PureComponent {
               />
           </div>
 
-            <div className="flex-push"></div>
+          {this.viewSnapshots()}
 
-            {this.filterModal()}
+          <div className="flex-push"></div>
 
-            {this.columnModal()}
+          {this.filterModal()}
+          {this.columnModal()}
 
-            <Popup basic content='View in Chart Builder' 
-              trigger={<Button className="filter-button" icon="chart line" onClick={() => openChartBuilder(this.props.query, this.props.accountId)} content="View Query" />} 
-            />
+          <Popup basic content='View in Chart Builder' 
+            trigger={<Button className="filter-button" icon="chart line" onClick={() => openChartBuilder(this.props.query, this.props.entity.account.id)} content="View Query" />} 
+          />
 
-            <Popup basic content='Pause / Resume Event Stream' 
-              trigger={<Button className="filter-button" style={{width:"80px"}} icon={this.props.enabled ? "pause" : "play"} onClick={handleClick} content={this.props.enabled ? "Pause" : " Play"} />} 
-            />
+          <Popup basic content='Snapshot Events in View' 
+            trigger={<Button className="filter-button" icon="camera" onClick={() => this.writeSnapshot(this.props.query, this.props.entity, this.props.bucketMs)} content="Snapshot" />} 
+          />
 
-            <div className="react-select-input-group" style={{width:"90px", textAlign:"center"}}>
-              <Popup basic content='Retain events for N seconds' trigger={<label>Retain for</label>}/>
-              <Select
-                  options={timeBucketOptions}
-                  onChange={this.updateBucket}
-                  value={this.props.bucketMs}
-                  classNamePrefix="react-select"
-                />
-            </div>
+          <Popup basic content='Pause / Resume Event Stream' 
+            trigger={<Button className="filter-button" style={{width:"80px"}} icon={this.props.enabled ? "pause" : "play"} onClick={handleClick} content={this.props.enabled ? "Pause" : " Play"} />} 
+          />
+
+          <div className="react-select-input-group" style={{width:"90px", textAlign:"center"}}>
+            <Popup basic content='Retain events for N seconds' trigger={<label>Retain for</label>}/>
+            <Select
+                options={timeBucketOptions}
+                onChange={this.updateBucket}
+                value={this.props.bucketMs}
+                classNamePrefix="react-select"
+              />
+          </div>
         </div>
 
         {this.filtersContainer()}

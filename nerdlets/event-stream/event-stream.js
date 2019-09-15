@@ -1,5 +1,5 @@
 import React from 'react';
-import { nerdGraphQuery, nrdbQuery, uniqByPropMap } from './lib/utils';
+import { nerdGraphQuery, nrdbQuery, uniqByPropMap, getCollection } from './lib/utils';
 import EventTable from './components/event-table';
 import MenuBar from './components/menu-bar';
 import { Grid } from 'semantic-ui-react';
@@ -40,18 +40,21 @@ export default class EventStream extends React.Component {
           queryTracker: "",
           queryStatus: "",
           entity: {account:{id:null}},
-          columns: []
+          columns: [],
+          snapshots: []
         }
         this.setParentState = this.setParentState.bind(this);
         this.getParentState = this.getParentState.bind(this);
         this.loadEntity = this.loadEntity.bind(this);
         this.startTimer = this.startTimer.bind(this);
+        this.fetchSnapshots = this.fetchSnapshots.bind(this);
     }
 
     async componentDidMount(){
       let columns = [...APM_REQ, ...APM_DEFAULT]
       await this.setState({columns})
       this.loadEntity()
+      this.fetchSnapshots()
     }
 
     componentDidUpdate({nerdletUrlState}) {
@@ -59,6 +62,11 @@ export default class EventStream extends React.Component {
           console.log('reloading entity')
           this.loadEntity()
         }
+    }
+
+    async fetchSnapshots(){
+      let snapshots = await getCollection("eventStreamSnapshots")
+      this.setState({snapshots})
     }
 
     startTimer(){
@@ -165,14 +173,16 @@ export default class EventStream extends React.Component {
               <Grid.Row>
                 <Grid.Column>
                   <MenuBar 
+                    entity={this.state.entity}
                     filters={this.state.filters} 
                     columns={this.state.columns} 
                     bucketMs={this.state.bucketMs} 
                     query={this.state.queryTracker} 
-                    accountId={this.state.entity.account.id} 
                     keySet={this.state.keySet} 
                     enabled={this.state.enabled} 
-                    setParentState={this.setParentState}/>
+                    snapshots={this.state.snapshots}
+                    setParentState={this.setParentState}
+                    fetchSnapshots={this.fetchSnapshots} />
                 </Grid.Column>
               </Grid.Row>
 
