@@ -47,7 +47,8 @@ export const rowRenderer = (data, events) => {
     // custom error style handling
     if(events[index].error) style.backgroundColor = "#FFEFF0"
     if(events[index].httpResponseCode && parseFloat(events[index].httpResponseCode) > 399) style.backgroundColor = "#FFEFF0"
-
+    if(events[index]["error.message"] && events[index]["error.message"] != "") style.backgroundColor = "#FFEFF0"
+    
     return (
         <div
         {...a11yProps}
