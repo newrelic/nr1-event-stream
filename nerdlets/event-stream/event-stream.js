@@ -42,8 +42,7 @@ export default class EventStream extends React.Component {
           entity: {account:{id:null}},
           columns: [],
           snapshots: [],
-          loading: false,
-          started: false
+          loading: false
         }
         this.setParentState = this.setParentState.bind(this);
         this.getParentState = this.getParentState.bind(this);
@@ -76,7 +75,7 @@ export default class EventStream extends React.Component {
           if(this.state.enabled && this.state.queryStatus != "start"){
               await this.setState({queryStatus: "start"})
 
-              let { entity, entityGuid, bucketMs, previousIds, events, eventLength, queryTracker, columns, started } = this.state
+              let { entity, entityGuid, bucketMs, previousIds, events, eventLength, queryTracker, columns } = this.state
               let baseQuery = `SELECT ${setQueryAttributes(columns)} FROM Transaction, TransactionError WHERE entityGuid = '${entityGuid}'`
 
               // do not query ids that have already been found
@@ -108,7 +107,6 @@ export default class EventStream extends React.Component {
 
               if(eventLength.length > 25) eventLength.unshift(); 
               await this.setState({events, eventLength, previousIds: newIds, queryStatus: "end" })
-              if(!started) await this.setState({started: true})
           }
       },1500);
   }
@@ -174,6 +172,7 @@ export default class EventStream extends React.Component {
     }
 
     render() {
+        let starting = this.state.loading || this.state.eventLength.length == 0
         return (
             <Grid style={{height:"100%"}}>
               <Grid.Row>
@@ -203,11 +202,10 @@ export default class EventStream extends React.Component {
 
               <Grid.Row columns={16} stretched style={{height:"80%", paddingTop:"0px"}}>
                 <Grid.Column width={16}>
-                    {this.state.loading && !this.state.started ? 
-                      <Dimmer active={this.state.loading}>
-                        <Loader size="large">Loading Entity</Loader>
-                      </Dimmer> :
-                    <EventTable 
+                    <Dimmer active={starting} style={{display: starting ? "" : "none"}}>
+                      <Loader size="large">Loading Entity</Loader>
+                    </Dimmer>
+                    <EventTable style={{display: starting ? "none" : ""}}
                         events={this.state.events} 
                         columns={this.state.columns} 
                         query={this.state.queryTracker} 
