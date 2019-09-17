@@ -4,7 +4,7 @@
 
 ## Usage
 
-Event Stream - View and filter transactional events live.
+Similar to Unix _tail_ for New Relic event data: View and filter transactional events live.
 Supports: APM (Transaction, TransactionError)
 
 ![Screenshot](./screenshots/screenshot.png)
