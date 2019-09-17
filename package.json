@@ -10,7 +10,7 @@
     "eslint-fix": "eslint nerdlets/ --fix"
   },
   "nr1": {
-    "uuid": "4d5f9fd8-f734-4488-bb16-2b148b33b3d3",
+    "uuid": "37595456-af9e-4c74-9825-5c943dff7179",
     "sdkVersion": 2
   },
   "dependencies": {

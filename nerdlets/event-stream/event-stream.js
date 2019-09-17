@@ -2,7 +2,7 @@ import React from 'react';
 import { nerdGraphQuery, nrdbQuery, uniqByPropMap, getCollection } from './lib/utils';
 import EventTable from './components/event-table';
 import MenuBar from './components/menu-bar';
-import { Grid, Dimmer, Loader } from 'semantic-ui-react';
+import { Grid, Dimmer, Loader, Header } from 'semantic-ui-react';
 import { Sparklines, SparklinesLine, SparklinesSpots } from 'react-sparklines';
 import { APM_DEFAULT, APM_REQ } from './lib/metrics'
 
@@ -39,7 +39,7 @@ export default class EventStream extends React.Component {
           previousIds: [],
           queryTracker: "",
           queryStatus: "",
-          entity: {account:{id:null}},
+          entity: null,
           columns: [],
           snapshots: [],
           loading: false
@@ -137,26 +137,32 @@ export default class EventStream extends React.Component {
           }`
     
           let data = await nerdGraphQuery(gql)
-          let baseQuery = ""
-          let keySet = []
-          switch(data.actor.entity.domain){
-            case "APM":
-                baseQuery = `SELECT ${setQueryAttributes(columns)} FROM Transaction, TransactionError WHERE entityGuid = '${entityGuid}'`
-                console.log(`NRDB Base Query: ${baseQuery}`)
-                keySet = await nrdbQuery(data.actor.entity.account.id, `SELECT keyset() FROM Transaction, TransactionError WHERE entityGuid = '${entityGuid}'`)
-                keySet = keySet.map((k) => ({ title: k.key, type: k.type }))
-                const uniqueById = uniqByPropMap("title");
-                keySet = uniqueById(keySet);
-                break;
-            case "BROWSER": // not supported yet
-                // baseQuery = `SELECT * FROM Mobile WHERE id = '${id}'`
-                break;
-            default:
-              //
-          }
+          if(data.actor.entity){
+            let baseQuery = ""
+            let keySet = []
+            switch(data.actor.entity.domain){
+              case "APM":
+                  baseQuery = `SELECT ${setQueryAttributes(columns)} FROM Transaction, TransactionError WHERE entityGuid = '${entityGuid}'`
+                  console.log(`NRDB Base Query: ${baseQuery}`)
+                  keySet = await nrdbQuery(data.actor.entity.account.id, `SELECT keyset() FROM Transaction, TransactionError WHERE entityGuid = '${entityGuid}'`)
+                  keySet = keySet.map((k) => ({ title: k.key, type: k.type }))
+                  const uniqueById = uniqByPropMap("title");
+                  keySet = uniqueById(keySet);
+                  break;
+              case "BROWSER": // not supported yet
+                  // baseQuery = `SELECT * FROM Mobile WHERE id = '${id}'`
+                  break;
+              default:
+                //
+            }
 
-          await this.setState({ entityGuid, baseQuery, entity: data.actor.entity, accountId: data.actor.entity.account.id, keySet })
-          this.startTimer()
+            await this.setState({ entityGuid, baseQuery, entity: data.actor.entity, accountId: data.actor.entity.account.id, keySet })
+            this.startTimer()
+
+          }else{
+            await this.setState({entity: null})
+            console.log("entity is null, ensure this has been deployed against the correct account")
+          }
         } else {
           await this.setState({entity: null})
         }
@@ -172,20 +178,22 @@ export default class EventStream extends React.Component {
     }
 
     render() {
-        let starting = this.state.loading || this.state.eventLength.length == 0
+        let { entity, loading, eventLength, filters, columns, bucketMs, queryTracker, keySet, enabled, snapshots, events } = this.state 
+        let dimmerOn = loading || eventLength.length == 0 || !entity
+        let unableToAccessEntity = !loading && !entity && eventLength.length == 0
         return (
             <Grid style={{height:"100%"}}>
               <Grid.Row>
                 <Grid.Column>
                   <MenuBar 
-                    entity={this.state.entity}
-                    filters={this.state.filters} 
-                    columns={this.state.columns} 
-                    bucketMs={this.state.bucketMs} 
-                    query={this.state.queryTracker} 
-                    keySet={this.state.keySet} 
-                    enabled={this.state.enabled} 
-                    snapshots={this.state.snapshots}
+                    entity={entity}
+                    filters={filters} 
+                    columns={columns} 
+                    bucketMs={bucketMs} 
+                    query={queryTracker} 
+                    keySet={keySet} 
+                    enabled={enabled} 
+                    snapshots={snapshots}
                     setParentState={this.setParentState}
                     fetchSnapshots={this.fetchSnapshots} />
                 </Grid.Column>
@@ -193,7 +201,7 @@ export default class EventStream extends React.Component {
 
               <Grid.Row style={{paddingBottom:"0px"}}>
                 <Grid.Column>
-                  <Sparklines data={this.state.eventLength} height={15} limit={50} style={{ strokeWidth: 0.2 }}>
+                  <Sparklines data={eventLength} height={15} limit={50} style={{ strokeWidth: 0.2 }}>
                     <SparklinesLine color="#00B3D7" style={{ strokeWidth: 0.2 }}/>
                     <SparklinesSpots size={0.3} />
                   </Sparklines>
@@ -202,16 +210,20 @@ export default class EventStream extends React.Component {
 
               <Grid.Row columns={16} stretched style={{height:"80%", paddingTop:"0px"}}>
                 <Grid.Column width={16}>
-                    <Dimmer active={starting} style={{display: starting ? "" : "none"}}>
-                      <Loader size="large">Loading Entity</Loader>
+                    <Dimmer active={dimmerOn} style={{display: dimmerOn ? "" : "none"}}>
+                        <Loader size="large" style={{display: (loading || eventLength.length == 0) && !unableToAccessEntity ? "" : "none"}}>Loading Entity</Loader>
+                        <Header inverted style={{display: unableToAccessEntity ? "" : "none"}}>
+                          Nerdpack unable to access this entity!
+                          <Header.Subheader>Have you deployed against the correct account?</Header.Subheader>
+                        </Header>               
                     </Dimmer>
-                    <EventTable style={{display: starting ? "none" : ""}}
-                        events={this.state.events} 
-                        columns={this.state.columns} 
-                        query={this.state.queryTracker} 
-                        accountId={this.state.entity.account.id} 
-                        filters={this.state.filters} 
-                        keySet={this.state.keySet} 
+                    <EventTable style={{display: dimmerOn ? "none" : ""}}
+                        events={events} 
+                        columns={columns} 
+                        query={queryTracker} 
+                        accountId={((entity || {}).account || {}).id || 0} 
+                        filters={filters} 
+                        keySet={keySet} 
                         setParentState={this.setParentState} 
                         getParentState={this.getParentState}/>
                     }
