@@ -1,10 +1,12 @@
 import React from 'react';
-import { nerdGraphQuery, nrdbQuery, uniqByPropMap, getCollection } from './lib/utils';
+import { nerdGraphQuery, apmQuery, nrdbQuery, uniqByPropMap, getCollection, eventStreamQuery } from './lib/utils';
 import EventTable from './components/event-table';
 import MenuBar from './components/menu-bar';
 import { Grid, Dimmer, Loader, Header } from 'semantic-ui-react';
 import { Sparklines, SparklinesLine, SparklinesSpots } from 'react-sparklines';
 import { APM_DEFAULT, APM_REQ } from './lib/metrics'
+import { NerdGraphQuery } from 'nr1';
+import gql from 'graphql-tag';
 
 function setQueryAttributes(columns){
   let attributes = ""
@@ -30,6 +32,7 @@ export default class EventStream extends React.Component {
         super(props)
         this.state = { 
           entityGuid: null,
+          stats: {},
           events: [],
           eventLength: [],
           keySet: [],
@@ -101,7 +104,11 @@ export default class EventStream extends React.Component {
               query += `AND timestamp >= ${queryTimestamp} LIMIT 2000`
 
               // fetch events
-              let result = await nrdbQuery(entity.account.id, query)
+              let nerdGraphResults = await NerdGraphQuery.query({query: gql`${eventStreamQuery(entityGuid,entity.account.id,query)}`})
+              let nerdGraphData = (((nerdGraphResults || {}).data || {}).actor || {}).account || {}
+              let result = nerdGraphData.nrdbEvents.results || []
+              let resultStats = nerdGraphData.stats.results || []
+              let stats = resultStats[0] || {}
 
               // set timestamp for next query, use last timestamp found, else set current timestamp as next
               if(result[0] && result[0].timestamp){
@@ -116,9 +123,9 @@ export default class EventStream extends React.Component {
               // add new results to front of events array
               events.unshift(...result)
 
-              eventLength.push(result.length)
+              eventLength.push(stats.count)
               if(eventLength.length > 25) eventLength.unshift(); 
-              await this.setState({events, eventLength, previousIds: filterIds, queryTimestamp, queryStatus: "end" })
+              await this.setState({events, eventLength, previousIds: filterIds, queryTimestamp, stats, queryStatus: "end" })
           }
       },1500);
   }
@@ -190,7 +197,7 @@ export default class EventStream extends React.Component {
     }
 
     render() {
-        let { entity, loading, eventLength, filters, columns, bucketMs, queryTracker, keySet, enabled, snapshots, events } = this.state 
+        let { entity, loading, eventLength, filters, columns, bucketMs, queryTracker, keySet, enabled, snapshots, events, stats } = this.state 
         let dimmerOn = loading || eventLength.length == 0 || !entity
         let unableToAccessEntity = !loading && !entity && eventLength.length == 0
         return (
@@ -211,7 +218,7 @@ export default class EventStream extends React.Component {
                 </Grid.Column>
               </Grid.Row>
 
-              <Grid.Row style={{paddingBottom:"0px"}}>
+              <Grid.Row style={{paddingBottom:"0px",paddingTop:"0px"}}>
                 <Grid.Column>
                   <Sparklines data={eventLength} height={15} limit={50} style={{ strokeWidth: 0.2 }}>
                     <SparklinesLine color="#00B3D7" style={{ strokeWidth: 0.2 }}/>
@@ -229,6 +236,9 @@ export default class EventStream extends React.Component {
                           <Header.Subheader>Have you deployed against the correct account?</Header.Subheader>
                         </Header>               
                     </Dimmer>
+
+                    <h3 style={{maxHeight:"20px", paddingRight:"5px", margin:0, textAlign:"right"}} className="filters-header">{stats.count || 0} Transactions since 1 minute ago</h3>
+
                     <EventTable style={{display: dimmerOn ? "none" : ""}}
                         events={events} 
                         columns={columns} 

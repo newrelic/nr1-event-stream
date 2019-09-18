@@ -21,8 +21,49 @@ export const gqlNrqlQuery = (accountId, query, timeout) => {
 }
 
 export const nerdGraphQuery = async (query) => {
-  return (await NerdGraphQuery.query({query: gql`${query}`})).data
+  let nerdGraphData = await NerdGraphQuery.query({query: gql`${query}`})
+  return nerdGraphData.data
 }
+
+export const eventStreamQuery = (entityGuid, accountId, query, timeout) => {
+  return gql`{
+    actor {
+      account(id: ${accountId}) {
+        nrdbEvents: nrql(query: "${query}", timeout: ${timeout || 30000}) {
+          results
+        },
+        stats: nrql(query: "SELECT count(*) FROM Transaction, TransactionError WHERE entityGuid='${entityGuid}' SINCE 1 minute ago EXTRAPOLATE", timeout: ${timeout || 30000}) {
+          results
+        }
+      }
+    }
+  }`
+}
+
+export const apmQuery = (entityGuid, query) => `{
+  actor {
+    entity(guid: "${entityGuid}") {
+      nrdbEvents: nrdbQuery(nrql: "${query}") {
+        results
+      }
+      ... on ApmApplicationEntity {
+        apmSummary {
+          throughput
+          errorRate
+          hostCount
+          instanceCount
+          nonWebResponseTimeAverage
+          nonWebThroughput
+          responseTimeAverage
+          webResponseTimeAverage
+          webThroughput
+          apdexScore
+        }
+        alertSeverity
+      }
+    }
+  }
+}`
 
 export const uniqByPropMap = prop => arr =>
   Array.from(
