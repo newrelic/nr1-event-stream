@@ -42,7 +42,8 @@ export default class EventStream extends React.Component {
           entity: null,
           columns: [],
           snapshots: [],
-          loading: false
+          loading: false,
+          queryTimestamp: 0,
         }
         this.setParentState = this.setParentState.bind(this);
         this.getParentState = this.getParentState.bind(this);
@@ -75,10 +76,18 @@ export default class EventStream extends React.Component {
           if(this.state.enabled && this.state.queryStatus != "start"){
               await this.setState({queryStatus: "start"})
 
-              let { entity, entityGuid, bucketMs, previousIds, events, eventLength, queryTracker, columns } = this.state
+              let { entity, entityGuid, bucketMs, previousIds, events, eventLength, queryTracker, columns, queryTimestamp } = this.state
               let baseQuery = `SELECT ${setQueryAttributes(columns)} FROM Transaction, TransactionError WHERE entityGuid = '${entityGuid}'`
+              let currentTimestamp = new Date().getTime()
+              if(queryTimestamp == 0) queryTimestamp = currentTimestamp
 
-              // do not query ids that have already been found
+              // filter current events out of bucket
+              events = events.filter((event)=>{
+                let timestampDiff = currentTimestamp - event.timestamp
+                return timestampDiff <= bucketMs.value
+              })
+
+              // construct query
               let query = `${baseQuery} `
               query += Object.keys(this.state.filters).map((filter)=>`AND ${this.state.filters[filter]} `).toString().replace(/,/g,"")
               if(queryTracker != query){
@@ -87,26 +96,29 @@ export default class EventStream extends React.Component {
                 eventLength = []
                 await this.setState({queryTracker: query})
               }
-              query += ` AND traceId NOT IN (${"'"+previousIds.join("','") + "'"}) `
-              query += `SINCE 2 seconds ago LIMIT 2000`
 
+              query += ` AND traceId NOT IN (${"'"+previousIds.join("','") + "'"}) `
+              query += `AND timestamp >= ${queryTimestamp} LIMIT 2000`
+
+              // fetch events
               let result = await nrdbQuery(entity.account.id, query)
 
-              // add new results to events array
-              events.unshift(...result)  
-                     
-              let newIds = []
-              let currentTimestamp = new Date().getTime()
-              events = events.filter((event)=>{
-                let timestampDiff = currentTimestamp - event.timestamp
-                newIds.push(event.traceId)
-                return timestampDiff <= bucketMs.value
-              })
+              // set timestamp for next query, use last timestamp found, else set current timestamp as next
+              if(result[0] && result[0].timestamp){
+                queryTimestamp = result[0].timestamp
+              }else{
+                queryTimestamp = currentTimestamp
+              }
+
+              // ensure duplicate transactions are not re-queried
+              let filterIds = result.filter((event)=> event.timestamp == queryTimestamp).map((event)=>event.traceId)
+
+              // add new results to front of events array
+              events.unshift(...result)
 
               eventLength.push(result.length)
-
               if(eventLength.length > 25) eventLength.unshift(); 
-              await this.setState({events, eventLength, previousIds: newIds, queryStatus: "end" })
+              await this.setState({events, eventLength, previousIds: filterIds, queryTimestamp, queryStatus: "end" })
           }
       },1500);
   }

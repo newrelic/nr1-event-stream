@@ -5,3 +5,4 @@ dist*
 coverage
 tmp*
 .DS*
+*.tar.gz
