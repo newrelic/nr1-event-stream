@@ -227,9 +227,9 @@ export default class EventStream extends React.Component {
                 </Grid.Column>
               </Grid.Row>
 
-              <Grid.Row columns={16} stretched style={{height:"80%", paddingTop:"0px"}}>
+              <Grid.Row columns={16} stretched style={{height:"77%", paddingTop:"0px"}}>
                 <Grid.Column width={16}>
-                    <Dimmer active={dimmerOn} style={{display: dimmerOn ? "" : "none"}}>
+                    <Dimmer active={dimmerOn} style={{display: dimmerOn ? "" : "none", height:"108%"}}>
                         <Loader size="large" style={{display: (loading || eventLength.length == 0) && !unableToAccessEntity ? "" : "none"}}>Loading Entity</Loader>
                         <Header inverted style={{display: unableToAccessEntity ? "" : "none"}}>
                           Nerdpack unable to access this entity!
