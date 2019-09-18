@@ -25,14 +25,14 @@ export const nerdGraphQuery = async (query) => {
   return nerdGraphData.data
 }
 
-export const eventStreamQuery = (entityGuid, accountId, query, timeout) => {
+export const eventStreamQuery = (entityGuid, accountId, query, timestamp, timeout) => {
   return gql`{
     actor {
       account(id: ${accountId}) {
-        nrdbEvents: nrql(query: "${query}", timeout: ${timeout || 30000}) {
+        nrdbEvents: nrql(query: "${query} AND timestamp >= ${timestamp} LIMIT 2000", timeout: ${timeout || 30000}) {
           results
         },
-        stats: nrql(query: "SELECT count(*) FROM Transaction, TransactionError WHERE entityGuid='${entityGuid}' SINCE 1 minute ago EXTRAPOLATE", timeout: ${timeout || 30000}) {
+        stats: nrql(query: "SELECT count(*) FROM Transaction, TransactionError WHERE entityGuid='${entityGuid}' WHERE timestamp >= ${timestamp}", timeout: ${timeout || 30000}) {
           results
         }
       }

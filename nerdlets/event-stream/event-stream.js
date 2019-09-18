@@ -99,12 +99,10 @@ export default class EventStream extends React.Component {
                 eventLength = []
                 await this.setState({queryTracker: query})
               }
-
               query += ` AND traceId NOT IN (${"'"+previousIds.join("','") + "'"}) `
-              query += `AND timestamp >= ${queryTimestamp} LIMIT 2000`
 
               // fetch events
-              let nerdGraphResults = await NerdGraphQuery.query({query: gql`${eventStreamQuery(entityGuid,entity.account.id,query)}`})
+              let nerdGraphResults = await NerdGraphQuery.query({query: gql`${eventStreamQuery(entityGuid,entity.account.id,query, queryTimestamp)}`})
               let nerdGraphData = (((nerdGraphResults || {}).data || {}).actor || {}).account || {}
               let result = nerdGraphData.nrdbEvents.results || []
               let resultStats = nerdGraphData.stats.results || []
