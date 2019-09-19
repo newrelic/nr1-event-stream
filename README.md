@@ -22,7 +22,7 @@ This project is distributed under the [Apache 2 license](LICENSE).
 Clone this repository and run the following scripts:
 
 ```bash
-git clone https://github.com/newrelic/nr1-event-stream.git
+nr1 nerdpack:clone -r https://github.com/newrelic/nr1-event-stream.git
 cd nr1-event-stream
 nr1 nerdpack:uuid -gf
 npm install
