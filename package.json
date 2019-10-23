@@ -2,7 +2,7 @@
   "private": true,
   "name": "nr1-event-stream",
   "description": "Event Stream Nerdpack",
-  "version": "0.1.4",
+  "version": "0.1.8",
   "scripts": {
     "start": "nr1 nerdpack:serve",
     "test": "exit 0",
@@ -10,7 +10,8 @@
     "eslint-fix": "eslint nerdlets/ --fix"
   },
   "nr1": {
-    "uuid": "37595456-af9e-4c74-9825-5c943dff7179",
+    "uuidAlt": "e9ea4969-9bc1-4bac-a55a-739ee8e140bb",
+    "uuid": "278ddadb-77eb-4377-ab66-c0dc64bae29c",
     "sdkVersion": 2
   },
   "dependencies": {

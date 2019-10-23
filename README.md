@@ -22,7 +22,7 @@ This project is distributed under the [Apache 2 license](LICENSE).
 Clone this repository and run the following scripts:
 
 ```bash
-git clone https://github.com/newrelic/nr1-event-stream.git
+nr1 nerdpack:clone -r https://github.com/newrelic/nr1-event-stream.git
 cd nr1-event-stream
 nr1 nerdpack:uuid -gf
 npm install
@@ -54,9 +54,9 @@ _Please do not report issues with this software to New Relic Global Technical Su
 
 ### Community
 
-New Relic hosts and moderates an online forum where customers can interact with New Relic employees as well as other customers to get help and share best practices. Like all official New Relic open source projects, there's a related Community topic in the New Relic Explorer's Hub. You can find this project's topic/threads here:
+New Relic hosts and moderates an online forum where customers can interact with New Relic employees as well as other customers to get help and share best practices. Like all official New Relic open source projects, there's a related Community topic in the New Relic Explorers Hub. You can find this project's topic/threads here:
 
-[https://discuss.newrelic.com/c/build-on-new-relic/nr1-event-stream](https://discuss.newrelic.com/c/build-on-new-relic/nr1-event-stream)
+https://discuss.newrelic.com/t/event-stream-nerdpack/83285
 *(Note: URL subject to change before GA)*
 
 ### Issues / Enhancement Requests
