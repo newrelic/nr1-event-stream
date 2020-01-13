@@ -9,6 +9,8 @@ Supports: APM (Transaction, TransactionError)
 
 ![Screenshot](./screenshots/screenshot.png)
 
+_Note; this Nerdpack is not served as a Launcher on the New Relic One homepage, rather to find it, you'll need to navigate through the Entity Explorer > Services > myServiceName > Troubleshoot > Event Stream_
+
 ## Open Source License
 
 This project is distributed under the [Apache 2 license](LICENSE).
