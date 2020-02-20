@@ -4,20 +4,21 @@
 
 ## Usage
 
-Similar to Unix _tail_ for New Relic event data: View and filter transactional events live.
-Supports: APM (Transaction, TransactionError)
+Event Stream is similar to Unix’s `tail` program, now focused on APM.
+
+Event Stream uses data from `Transaction` and `TransactionError` events to display a live stream of processes occuring in your system.
 
 ![Screenshot](./screenshots/screenshot.png)
 
-_Note; this Nerdpack is not served as a Launcher on the New Relic One homepage, rather to find it, you'll need to navigate through the Entity Explorer > Services > myServiceName > Troubleshoot > Event Stream_
+> Note: this NerdPack is not served as a launcher on the homepage of [New Relic One](https://one.newrelic.com). Instead, you'll have to navigate through `Entity Explorer > Services > myServiceName > Troubleshoot > Event Stream`.
 
 ## Open Source License
 
 This project is distributed under the [Apache 2 license](LICENSE).
 
-## What do you need to make this work?
+## Dependencies
 
-<!-- TO DO -->
+Requires [`New Relic APM`](https://newrelic.com/products/application-monitoring).
 
 ## Getting started
 
@@ -48,20 +49,16 @@ nr1 nerdpack:subscribe [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
 
 Visit [https://one.newrelic.com](https://one.newrelic.com), navigate to the Nerdpack, and :sparkles:
 
-## Support
+## Community Support
 
-New Relic has open-sourced this project. This project is provided AS-IS WITHOUT WARRANTY OR SUPPORT, although you can report issues and contribute to the project here on GitHub.
+New Relic hosts and moderates an online forum where you can interact with New Relic employees as well as other customers to get help and share best practices. Like all New Relic open source community projects, there's a related topic in the New Relic Explorers Hub. You can find this project's topic/threads here:
 
-_Please do not report issues with this software to New Relic Global Technical Support._
+[https://discuss.newrelic.com/t/event-stream-nerdpack/83285](https://discuss.newrelic.com/t/event-stream-nerdpack/83285)
+_(Note: URL subject to change before GA)_
 
-### Community
+Please do not report issues with Event Stream to New Relic Global Technical Support. Instead, visit the [`Explorers Hub`](https://discuss.newrelic.com/c/build-on-new-relic) for troubleshooting and best-practices.
 
-New Relic hosts and moderates an online forum where customers can interact with New Relic employees as well as other customers to get help and share best practices. Like all official New Relic open source projects, there's a related Community topic in the New Relic Explorers Hub. You can find this project's topic/threads here:
-
-https://discuss.newrelic.com/t/event-stream-nerdpack/83285
-*(Note: URL subject to change before GA)*
-
-### Issues / Enhancement Requests
+## Issues / Enhancement Requests
 
 Issues and enhancement requests can be submitted in the [Issues tab of this repository](../../issues). Please search for and review the existing open issues before submitting a new issue.
 
