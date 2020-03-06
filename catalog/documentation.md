@@ -10,13 +10,13 @@ Event Stream is similar to Unix’s `tail` program, now focused on APM.
 
 Event Stream uses data from `Transaction` and `TransactionError` events to display a live stream of processes occuring in your system.
 
-![Screenshot](catalog/screenshots/nr1-event-stream-01.png)
+![Screenshot](https://github.com/newrelic/nr1-event-stream/blob/master/catalog/screenshots/nr1-event-stream-01.png)
 
 > Note: this NerdPack is not served as a launcher on the homepage of [New Relic One](https://one.newrelic.com). Instead, you'll have to navigate through `Entity Explorer > Services > myServiceName > Troubleshoot > Event Stream`.
 
 ## Open Source License
 
-This project is distributed under the [Apache 2 license](LICENSE).
+This project is distributed under the [Apache 2 license](https://github.com/newrelic/nr1-event-stream/blob/master/LICENSE).
 
 ## Dependencies
 
@@ -67,6 +67,6 @@ Issues and enhancement requests can be submitted in the [Issues tab of this repo
 
 ## Contributing
 
-Contributions are welcome (and if you submit a Enhancement Request, expect to be invited to contribute it yourself :grin:). Please review our [Contributors Guide](CONTRIBUTING.md).
+Contributions are welcome (and if you submit a Enhancement Request, expect to be invited to contribute it yourself :grin:). Please review our [Contributors Guide](https://github.com/newrelic/nr1-event-stream/blob/master/CONTRIBUTING.md).
 
 Keep in mind that when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. If you'd like to execute our corporate CLA, or if you have any questions, please drop us an email at opensource@newrelic.com.

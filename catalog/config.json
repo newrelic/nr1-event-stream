@@ -1,0 +1,17 @@
+{
+  "tagline": "View the latest live data stream for APM data based on Transaction and TransactionError events.",
+  "repository": "https://github.com/newrelic/nr1-event-stream.git",
+  "details": "Event Stream is similar to Unix’s tail program, now focused on APM.\nEvent Stream uses data from Transaction and TransactionError events to display a live stream of processes occuring in your system.",
+  "support": {
+    "issues": {
+      "url": "https://github.com/newrelic/nr1-event-stream/issues"
+    },
+    "email": {
+      "address": "opensource+nr1-event-stream@newrelic.com"
+    },
+    "community": {
+      "url": "https://discuss.newrelic.com/t/event-stream-nerdpack/83285"
+    }
+  },
+  "whatsNew": "\n- Fix: Update stats query to use correct timestamp value\n- Feat: Use transaction count for sparkline rather then events returned count\n- Fix: Improve performance and use timestamp as tracker"
+}
