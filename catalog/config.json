@@ -1,5 +1,5 @@
 {
-  "tagline": "View the latest live data stream for APM data based on Transaction and TransactionError events.",
+  "tagline": "Tail live Transaction events",
   "repository": "https://github.com/newrelic/nr1-event-stream.git",
   "details": "Event Stream is similar to Unix’s tail program, now focused on APM.\nEvent Stream uses data from Transaction and TransactionError events to display a live stream of processes occuring in your system.",
   "support": {

@@ -1,16 +1,8 @@
-[![New Relic One Catalog Project header](https://github.com/newrelic/open-source-office/raw/master/examples/categories/images/New_Relic_One_Catalog_Project.png)](https://github.com/newrelic/open-source-office/blob/master/examples/categories/index.md#nr1-catalog)
-
-# nr1-event-stream
-
-![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-event-stream?include_prereleases&sort=semver) ![AppVeyor](https://img.shields.io/appveyor/ci/newrelic/nr1-event-stream) [![Snyk](https://snyk.io/test/github/newrelic/nr1-event-stream/badge.svg)](https://snyk.io/test/github/newrelic/nr1-event-stream)
-
 ## Usage
 
 Event Stream is similar to Unix’s `tail` program, now focused on APM.
 
 Event Stream uses data from `Transaction` and `TransactionError` events to display a live stream of processes occuring in your system.
-
-![Screenshot](https://github.com/newrelic/nr1-event-stream/blob/master/catalog/screenshots/nr1-event-stream-01.png)
 
 > Note: this NerdPack is not served as a launcher on the homepage of [New Relic One](https://one.newrelic.com). Instead, you'll have to navigate through `Entity Explorer > Services > myServiceName > Troubleshoot > Event Stream`.
 
