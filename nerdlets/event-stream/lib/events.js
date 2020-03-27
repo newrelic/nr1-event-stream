@@ -1,6 +1,3 @@
 export const DOMAIN_EVENT_TYPES = {
-  APM: [
-    'Transaction',
-    'TransactionError',    
-  ],
-}
+  APM: ['Transaction', 'TransactionError'],
+};
