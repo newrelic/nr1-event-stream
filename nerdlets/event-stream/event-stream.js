@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   nerdGraphQuery,
-  apmQuery,
   nrdbQuery,
   uniqByPropMap,
   getCollection,
