@@ -22,7 +22,7 @@
     "react-sparklines": "^1.7.0",
     "react-virtualized": "^9.21.1",
     "react-virtualized-auto-sizer": "^1.0.2",
-    "semantic-ui-react": "^0.88.0"
+    "semantic-ui-react": "^0.88.2"
   },
   "browserslist": [
     "last 2 versions",
