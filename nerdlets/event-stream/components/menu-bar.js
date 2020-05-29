@@ -637,7 +637,7 @@ export default class MenuBar extends React.PureComponent {
             trigger={
               <Button
                 className="filter-button"
-                style={{ width: '80px' }}
+                style={{ width: '95px' }}
                 icon={this.props.enabled ? 'pause' : 'play'}
                 onClick={handleClick}
                 content={this.props.enabled ? 'Pause' : ' Play'}

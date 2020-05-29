@@ -1,6 +1,6 @@
 {
   "schemaType": "NERDPACK",
-  "id": "4af0e16c-7082-48c0-9276-46c76f1e0747",
+  "id": "016f416e-6b4d-4fe6-bea7-a45a974698c6",
   "displayName": "Event Stream",
   "description": "View the latest live data stream for APM data based on Transaction and TransactionError events."
 }

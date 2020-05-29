@@ -2,7 +2,7 @@
   "private": true,
   "name": "nr1-event-stream",
   "description": "Event Stream Nerdpack",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "scripts": {
     "start": "nr1 nerdpack:serve",
     "test": "exit 0",
@@ -10,19 +10,19 @@
     "eslint-fix": "eslint nerdlets/ --fix"
   },
   "dependencies": {
-    "graphql": "^14.5.3",
-    "graphql-tag": "^2.10.1",
+    "graphql": "^14.6.0",
+    "graphql-tag": "^2.10.3",
     "lodash": "^4.17.15",
     "prop-types": "^15.6.2",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "react-draggable": "^3.3.2",
     "react-json-pretty": "^2.1.0",
-    "react-select": "^3.0.4",
+    "react-select": "^3.1.0",
     "react-sparklines": "^1.7.0",
     "react-virtualized": "^9.21.1",
     "react-virtualized-auto-sizer": "^1.0.2",
-    "semantic-ui-react": "^0.88.0"
+    "semantic-ui-react": "^0.88.2"
   },
   "browserslist": [
     "last 2 versions",
