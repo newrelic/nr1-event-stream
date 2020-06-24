@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/newrelic/nr1-event-stream/compare/v1.1.1...v1.1.2) (2020-06-24)
+
+
+### Bug Fixes
+
+* update catalog screenshots ([#29](https://github.com/newrelic/nr1-event-stream/issues/29)) ([7ff6c52](https://github.com/newrelic/nr1-event-stream/commit/7ff6c52a3ae3a7e567396359e9570ecc2e18a750))
+
 ## [1.1.1](https://github.com/newrelic/nr1-event-stream/compare/v1.1.0...v1.1.1) (2020-03-30)
 
 
