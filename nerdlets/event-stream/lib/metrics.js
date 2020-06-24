@@ -71,6 +71,7 @@ export const stringOptions = [
   { key: 'e', text: '=', value: '=' },
   { key: 'ne', text: '!=', value: '!=' },
   { key: 'l', text: 'LIKE', value: 'LIKE' },
+  { key: 'nl', text: 'NOT LIKE', value: 'NOT LIKE' },
   { key: 'in', text: 'IS NULL', value: 'IS NULL' },
   { key: 'inn', text: 'IS NOT NULL', value: 'IS NOT NULL' },
 ];
