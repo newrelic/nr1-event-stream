@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/newrelic/nr1-event-stream/compare/v1.1.2...v1.2.0) (2020-06-24)
+
+
+### Features
+
+* Trigger minor release update (990e370) ([7e3cd55](https://github.com/newrelic/nr1-event-stream/commit/7e3cd55e7fccb5a87ae80db7de41537c9fbc4faf))
+
 ## [1.1.2](https://github.com/newrelic/nr1-event-stream/compare/v1.1.1...v1.1.2) (2020-06-24)
 
 
