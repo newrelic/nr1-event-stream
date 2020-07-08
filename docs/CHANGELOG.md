@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/newrelic/nr1-event-stream/compare/v1.3.0...v1.3.1) (2020-07-08)
+
+
+### Bug Fixes
+
+* Filter modal doesn't include all operators ([#28](https://github.com/newrelic/nr1-event-stream/issues/28)) ([d33292c](https://github.com/newrelic/nr1-event-stream/commit/d33292c72c62017369b341593ef0c003c2b6cff3))
+
 # [1.3.0](https://github.com/newrelic/nr1-event-stream/compare/v1.2.0...v1.3.0) (2020-06-24)
 
 
