@@ -14,8 +14,6 @@
     "graphql-tag": "^2.10.3",
     "lodash": "^4.17.20",
     "prop-types": "^15.6.2",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
     "react-draggable": "^3.3.2",
     "react-json-pretty": "^2.2.0",
     "react-select": "^3.1.0",
@@ -30,13 +28,15 @@
     "not dead"
   ],
   "devDependencies": {
-    "@semantic-release/changelog": "^3.0.5",
-    "@semantic-release/git": "^7.0.18",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
     "babel-eslint": "^10.0.3",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.2.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
-    "prettier": "^1.18.2"
+    "prettier": "^1.18.2",
+    "react": "16.6.3",
+    "react-dom": "16.6.3"
   }
 }
