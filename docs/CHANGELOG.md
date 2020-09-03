@@ -1,3 +1,12 @@
+## [1.4.1](https://github.com/newrelic/nr1-event-stream/compare/v1.4.0...v1.4.1) (2020-09-03)
+
+
+### Bug Fixes
+
+* package.json & package-lock.json to reduce vulnerabilities ([28639e6](https://github.com/newrelic/nr1-event-stream/commit/28639e6c3a6decc1cb542e95361d241f2f70a0c5))
+* update lodash ([#39](https://github.com/newrelic/nr1-event-stream/issues/39)) ([5158ed8](https://github.com/newrelic/nr1-event-stream/commit/5158ed8b0b082b9a05f2e7a0057de0b6af487e2f))
+* upgrade react-json-pretty from 2.1.0 to 2.2.0 ([6d72891](https://github.com/newrelic/nr1-event-stream/commit/6d7289118bd21f579dde4b99d9d2b8e2e5194110))
+
 # [1.4.0](https://github.com/newrelic/nr1-event-stream/compare/v1.3.1...v1.4.0) (2020-07-09)
 
 
