@@ -102,7 +102,7 @@ SOFTWARE.
 
 ### lodash
 
-This product includes source derived from [lodash](https://github.com/lodash/lodash) ([v4.17.15](https://github.com/lodash/lodash/tree/v4.17.15)), distributed under the [MIT License](https://github.com/lodash/lodash/blob/v4.17.15/LICENSE):
+This product includes source derived from [lodash](https://github.com/lodash/lodash) ([v4.17.20](https://github.com/lodash/lodash/tree/v4.17.20)), distributed under the [MIT License](https://github.com/lodash/lodash/blob/v4.17.20/LICENSE):
 
 ```
 Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
