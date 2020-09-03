@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/newrelic/nr1-event-stream/compare/v1.4.1...v1.4.2) (2020-09-03)
+
+
+### Bug Fixes
+
+* update default branch to main ([b79177c](https://github.com/newrelic/nr1-event-stream/commit/b79177c2a849f2a8b7fe1c47d7928963c946e535))
+
 ## [1.4.1](https://github.com/newrelic/nr1-event-stream/compare/v1.4.0...v1.4.1) (2020-09-03)
 
 
