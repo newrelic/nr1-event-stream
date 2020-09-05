@@ -1,29 +1,29 @@
 {
-  "lastUpdated": "Thu Sep 03 2020 17:30:03 GMT+0000 (Coordinated Universal Time)",
+  "lastUpdated": "Sat Sep 05 2020 02:36:09 GMT+0000 (Coordinated Universal Time)",
   "projectName": "nr1-event-stream",
   "projectUrl": "https://github.com/newrelic/nr1-event-stream",
   "includeDev": true,
   "dependencies": {
-    "graphql-tag@2.10.3": {
+    "graphql-tag@2.11.0": {
       "name": "graphql-tag",
-      "version": "2.10.3",
-      "range": "^2.10.3",
+      "version": "2.11.0",
+      "range": "^2.11.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/apollographql/graphql-tag",
-      "versionedRepoUrl": "https://github.com/apollographql/graphql-tag/tree/v2.10.3",
+      "versionedRepoUrl": "https://github.com/apollographql/graphql-tag/tree/v2.11.0",
       "licenseFile": "node_modules/graphql-tag/LICENSE",
-      "licenseUrl": "https://github.com/apollographql/graphql-tag/blob/v2.10.3/LICENSE",
+      "licenseUrl": "https://github.com/apollographql/graphql-tag/blob/v2.11.0/LICENSE",
       "licenseTextSource": "file"
     },
-    "graphql@14.6.0": {
+    "graphql@14.7.0": {
       "name": "graphql",
-      "version": "14.6.0",
-      "range": "^14.6.0",
+      "version": "14.7.0",
+      "range": "^14.7.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/graphql/graphql-js",
-      "versionedRepoUrl": "https://github.com/graphql/graphql-js/tree/v14.6.0",
+      "versionedRepoUrl": "https://github.com/graphql/graphql-js/tree/v14.7.0",
       "licenseFile": "node_modules/graphql/LICENSE",
-      "licenseUrl": "https://github.com/graphql/graphql-js/blob/v14.6.0/LICENSE",
+      "licenseUrl": "https://github.com/graphql/graphql-js/blob/v14.7.0/LICENSE",
       "licenseTextSource": "file"
     },
     "lodash@4.17.20": {
@@ -114,15 +114,15 @@
       "email": "brian.david.vaughn@gmail.com",
       "url": "https://github.com/bvaughn/"
     },
-    "react-virtualized@9.21.2": {
+    "react-virtualized@9.22.2": {
       "name": "react-virtualized",
-      "version": "9.21.2",
-      "range": "^9.21.1",
+      "version": "9.22.2",
+      "range": "^9.22.2",
       "licenses": "MIT",
       "repoUrl": "https://github.com/bvaughn/react-virtualized",
-      "versionedRepoUrl": "https://github.com/bvaughn/react-virtualized/tree/v9.21.2",
+      "versionedRepoUrl": "https://github.com/bvaughn/react-virtualized/tree/v9.22.2",
       "licenseFile": "node_modules/react-virtualized/LICENSE",
-      "licenseUrl": "https://github.com/bvaughn/react-virtualized/blob/v9.21.2/LICENSE",
+      "licenseUrl": "https://github.com/bvaughn/react-virtualized/blob/v9.22.2/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Brian Vaughn",
       "email": "brian.david.vaughn@gmail.com"
@@ -205,15 +205,15 @@
       "licenseTextSource": "file",
       "publisher": "Teddy Katz"
     },
-    "eslint-plugin-react@7.20.0": {
+    "eslint-plugin-react@7.20.6": {
       "name": "eslint-plugin-react",
-      "version": "7.20.0",
-      "range": "^7.14.3",
+      "version": "7.20.6",
+      "range": "^7.20.6",
       "licenses": "MIT",
       "repoUrl": "https://github.com/yannickcr/eslint-plugin-react",
-      "versionedRepoUrl": "https://github.com/yannickcr/eslint-plugin-react/tree/v7.20.0",
+      "versionedRepoUrl": "https://github.com/yannickcr/eslint-plugin-react/tree/v7.20.6",
       "licenseFile": "node_modules/eslint-plugin-react/LICENSE",
-      "licenseUrl": "https://github.com/yannickcr/eslint-plugin-react/blob/v7.20.0/LICENSE",
+      "licenseUrl": "https://github.com/yannickcr/eslint-plugin-react/blob/v7.20.6/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Yannick Croissant",
       "email": "yannick.croissant+npm@gmail.com"

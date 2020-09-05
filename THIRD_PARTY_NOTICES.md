@@ -44,7 +44,7 @@ code, the source code can be found at [https://github.com/newrelic/nr1-event-str
 
 ### graphql-tag
 
-This product includes source derived from [graphql-tag](https://github.com/apollographql/graphql-tag) ([v2.10.3](https://github.com/apollographql/graphql-tag/tree/v2.10.3)), distributed under the [MIT License](https://github.com/apollographql/graphql-tag/blob/v2.10.3/LICENSE):
+This product includes source derived from [graphql-tag](https://github.com/apollographql/graphql-tag) ([v2.11.0](https://github.com/apollographql/graphql-tag/tree/v2.11.0)), distributed under the [MIT License](https://github.com/apollographql/graphql-tag/blob/v2.11.0/LICENSE):
 
 ```
 The MIT License (MIT)
@@ -73,7 +73,7 @@ SOFTWARE.
 
 ### graphql
 
-This product includes source derived from [graphql](https://github.com/graphql/graphql-js) ([v14.6.0](https://github.com/graphql/graphql-js/tree/v14.6.0)), distributed under the [MIT License](https://github.com/graphql/graphql-js/blob/v14.6.0/LICENSE):
+This product includes source derived from [graphql](https://github.com/graphql/graphql-js) ([v14.7.0](https://github.com/graphql/graphql-js/tree/v14.7.0)), distributed under the [MIT License](https://github.com/graphql/graphql-js/blob/v14.7.0/LICENSE):
 
 ```
 MIT License
@@ -302,7 +302,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ### react-virtualized
 
-This product includes source derived from [react-virtualized](https://github.com/bvaughn/react-virtualized) ([v9.21.2](https://github.com/bvaughn/react-virtualized/tree/v9.21.2)), distributed under the [MIT License](https://github.com/bvaughn/react-virtualized/blob/v9.21.2/LICENSE):
+This product includes source derived from [react-virtualized](https://github.com/bvaughn/react-virtualized) ([v9.22.2](https://github.com/bvaughn/react-virtualized/tree/v9.22.2)), distributed under the [MIT License](https://github.com/bvaughn/react-virtualized/blob/v9.22.2/LICENSE):
 
 ```
 The MIT License (MIT)
@@ -513,7 +513,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 ### eslint-plugin-react
 
-This product includes source derived from [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react) ([v7.20.0](https://github.com/yannickcr/eslint-plugin-react/tree/v7.20.0)), distributed under the [MIT License](https://github.com/yannickcr/eslint-plugin-react/blob/v7.20.0/LICENSE):
+This product includes source derived from [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react) ([v7.20.6](https://github.com/yannickcr/eslint-plugin-react/tree/v7.20.6)), distributed under the [MIT License](https://github.com/yannickcr/eslint-plugin-react/blob/v7.20.6/LICENSE):
 
 ```
 The MIT License (MIT)
