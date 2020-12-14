@@ -18,7 +18,7 @@
     "react-dom": "^16.6.3",
     "react-draggable": "^3.3.2",
     "react-json-pretty": "^2.2.0",
-    "react-select": "^3.1.0",
+    "react-select": "^3.1.1",
     "react-sparklines": "^1.7.0",
     "react-virtualized": "^9.21.1",
     "react-virtualized-auto-sizer": "^1.0.2",
