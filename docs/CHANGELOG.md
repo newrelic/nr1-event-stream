@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/newrelic/nr1-event-stream/compare/v1.4.1...v1.4.2) (2021-02-24)
+
+
+### Bug Fixes
+
+* upgrade react-virtualized from 9.21.2 to 9.22.2 ([cca141d](https://github.com/newrelic/nr1-event-stream/commit/cca141d5fe029a20c39e6d838c08eea69edb533c))
+
 ## [1.4.1](https://github.com/newrelic/nr1-event-stream/compare/v1.4.0...v1.4.1) (2020-09-03)
 
 
