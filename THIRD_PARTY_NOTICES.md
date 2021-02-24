@@ -44,7 +44,7 @@ code, the source code can be found at [https://github.com/newrelic/nr1-event-str
 
 ### graphql-tag
 
-This product includes source derived from [graphql-tag](https://github.com/apollographql/graphql-tag) ([v2.10.3](https://github.com/apollographql/graphql-tag/tree/v2.10.3)), distributed under the [MIT License](https://github.com/apollographql/graphql-tag/blob/v2.10.3/LICENSE):
+This product includes source derived from [graphql-tag](https://github.com/apollographql/graphql-tag) ([v2.11.0](https://github.com/apollographql/graphql-tag/tree/v2.11.0)), distributed under the [MIT License](https://github.com/apollographql/graphql-tag/blob/v2.11.0/LICENSE):
 
 ```
 The MIT License (MIT)
