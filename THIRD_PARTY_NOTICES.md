@@ -319,7 +319,7 @@ SOFTWARE.
 
 ### react-virtualized-auto-sizer
 
-This product includes source derived from [react-virtualized-auto-sizer](https://github.com/bvaughn/react-virtualized-auto-sizer) ([v1.0.3](https://github.com/bvaughn/react-virtualized-auto-sizer/tree/v1.0.3)), distributed under the [MIT License](https://github.com/bvaughn/react-virtualized-auto-sizer/blob/v1.0.3/README.md):
+This product includes source derived from [react-virtualized-auto-sizer](https://github.com/bvaughn/react-virtualized-auto-sizer) ([v1.0.4](https://github.com/bvaughn/react-virtualized-auto-sizer/tree/v1.0.4)), distributed under the [MIT License](https://github.com/bvaughn/react-virtualized-auto-sizer/blob/v1.0.4/README.md):
 
 ```
 MIT License
