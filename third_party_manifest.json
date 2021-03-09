@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "Tue Mar 09 2021 15:16:12 GMT+0000 (Coordinated Universal Time)",
+  "lastUpdated": "Tue Mar 09 2021 15:26:20 GMT+0000 (Coordinated Universal Time)",
   "projectName": "nr1-event-stream",
   "projectUrl": "https://github.com/newrelic/nr1-event-stream",
   "includeDev": true,
@@ -26,15 +26,15 @@
       "licenseUrl": "https://github.com/graphql/graphql-js/blob/v14.6.0/LICENSE",
       "licenseTextSource": "file"
     },
-    "lodash@4.17.20": {
+    "lodash@4.17.21": {
       "name": "lodash",
-      "version": "4.17.20",
+      "version": "4.17.21",
       "range": "^4.17.20",
       "licenses": "MIT",
       "repoUrl": "https://github.com/lodash/lodash",
-      "versionedRepoUrl": "https://github.com/lodash/lodash/tree/v4.17.20",
+      "versionedRepoUrl": "https://github.com/lodash/lodash/tree/v4.17.21",
       "licenseFile": "node_modules/lodash/LICENSE",
-      "licenseUrl": "https://github.com/lodash/lodash/blob/v4.17.20/LICENSE",
+      "licenseUrl": "https://github.com/lodash/lodash/blob/v4.17.21/LICENSE",
       "licenseTextSource": "file",
       "publisher": "John-David Dalton",
       "email": "john.david.dalton@gmail.com"
