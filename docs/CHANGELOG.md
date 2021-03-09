@@ -8,6 +8,18 @@
 * upgrade react-virtualized from 9.21.2 to 9.22.2 ([cca141d](https://github.com/newrelic/nr1-event-stream/commit/cca141d5fe029a20c39e6d838c08eea69edb533c))
 * upgrade react-virtualized from 9.22.2 to 9.22.3 ([4a5db65](https://github.com/newrelic/nr1-event-stream/commit/4a5db65b4cf5ee0edc318bbad1522d5886224706))
 * upgrade react-virtualized-auto-sizer from 1.0.2 to 1.0.3 ([8dc6a1a](https://github.com/newrelic/nr1-event-stream/commit/8dc6a1a26890a977c045071b8352611ffceb9f40))
+* upgrade react-virtualized-auto-sizer from 1.0.3 to 1.0.4 ([70dc514](https://github.com/newrelic/nr1-event-stream/commit/70dc514142baa90422955489617c2d9d9dcf48c2))
+
+## [1.4.2](https://github.com/newrelic/nr1-event-stream/compare/v1.4.1...v1.4.2) (2021-03-09)
+
+
+### Bug Fixes
+
+* upgrade graphql-tag from 2.10.3 to 2.11.0 ([a13b914](https://github.com/newrelic/nr1-event-stream/commit/a13b914ebab0afbc156d0593f46913ad3da1e486))
+* upgrade react-select from 3.1.0 to 3.1.1 ([ca5ae2f](https://github.com/newrelic/nr1-event-stream/commit/ca5ae2fc55d5839dad666764ac8cafcbcec8b593))
+* upgrade react-virtualized from 9.21.2 to 9.22.2 ([cca141d](https://github.com/newrelic/nr1-event-stream/commit/cca141d5fe029a20c39e6d838c08eea69edb533c))
+* upgrade react-virtualized from 9.22.2 to 9.22.3 ([4a5db65](https://github.com/newrelic/nr1-event-stream/commit/4a5db65b4cf5ee0edc318bbad1522d5886224706))
+* upgrade react-virtualized-auto-sizer from 1.0.2 to 1.0.3 ([8dc6a1a](https://github.com/newrelic/nr1-event-stream/commit/8dc6a1a26890a977c045071b8352611ffceb9f40))
 
 ## [1.4.2](https://github.com/newrelic/nr1-event-stream/compare/v1.4.1...v1.4.2) (2021-02-24)
 
