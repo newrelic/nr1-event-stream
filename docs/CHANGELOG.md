@@ -1,3 +1,12 @@
+## [1.4.3](https://github.com/newrelic/nr1-event-stream/compare/v1.4.2...v1.4.3) (2021-05-07)
+
+
+### Bug Fixes
+
+* upgrade lodash from 4.17.20 to 4.17.21 ([6b35549](https://github.com/newrelic/nr1-event-stream/commit/6b35549329d851aae18b9b29f1b5523d2a2814df))
+* upgrade react-select from 3.1.0 to 3.2.0 ([b913d96](https://github.com/newrelic/nr1-event-stream/commit/b913d96d11e9beddd7fcbc0c8dd058e1c3a2a527))
+* upgrade react-virtualized-auto-sizer from 1.0.2 to 1.0.5 ([0796105](https://github.com/newrelic/nr1-event-stream/commit/07961056f2ce379bfc62db31b7419c991a016754))
+
 ## [1.4.2](https://github.com/newrelic/nr1-event-stream/compare/v1.4.1...v1.4.2) (2020-09-03)
 
 
