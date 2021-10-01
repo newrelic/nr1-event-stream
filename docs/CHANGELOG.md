@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/newrelic/nr1-event-stream/compare/v1.4.3...v1.5.0) (2021-10-01)
+
+
+### Features
+
+* update semantic release with node ([4b8b2e3](https://github.com/newrelic/nr1-event-stream/commit/4b8b2e3e32920fe3fd68932813bb68b51b6a4dc5))
+
 ## [1.4.3](https://github.com/newrelic/nr1-event-stream/compare/v1.4.2...v1.4.3) (2021-05-07)
 
 
