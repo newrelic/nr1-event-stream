@@ -1,3 +1,11 @@
+## [1.5.1](https://github.com/newrelic/nr1-event-stream/compare/v1.5.0...v1.5.1) (2021-10-04)
+
+
+### Bug Fixes
+
+* actionIdentifier deprecation ([d99e1bf](https://github.com/newrelic/nr1-event-stream/commit/d99e1bfc24e4dbeca5a07649c49bd2a88fadfbbf))
+* NerdletSchema deprecation ([3c68d97](https://github.com/newrelic/nr1-event-stream/commit/3c68d9712ee9d2ea5c60f6123ecd26062af5d6ed))
+
 # [1.5.0](https://github.com/newrelic/nr1-event-stream/compare/v1.4.3...v1.5.0) (2021-10-01)
 
 
