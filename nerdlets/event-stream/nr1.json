@@ -1,7 +1,6 @@
 {
     "schemaType": "NERDLET",
     "id": "event-stream",
-    "actionCategory": "troubleshoot",
     "description": "",
     "displayName": "Event Stream",
     "context": {
