@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/newrelic/nr1-event-stream/compare/v1.5.1...v1.6.0) (2021-11-05)
+
+
+### Features
+
+* add catalog keywords and categoryTerms ([6edac52](https://github.com/newrelic/nr1-event-stream/commit/6edac52ca7922550be24a362f4ac369d23437daf))
+
 ## [1.5.1](https://github.com/newrelic/nr1-event-stream/compare/v1.5.0...v1.5.1) (2021-10-04)
 
 
