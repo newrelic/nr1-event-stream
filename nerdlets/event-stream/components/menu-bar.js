@@ -35,7 +35,7 @@ function Filter({ attribute, value, removeFilter }) {
 
 function openChartBuilder(query, account) {
   const nerdlet = {
-    id: 'wanda-data-exploration.nrql-editor',
+    id: 'data-exploration.nrql-editor',
     urlState: {
       initialActiveInterface: 'nrqlEditor',
       initialChartType: 'table',
