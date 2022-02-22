@@ -114,6 +114,7 @@ export default class EventStream extends React.Component {
           .toString()
           .replace(/,/g, '');
         if (queryTracker != query) {
+          console.log(`NRDB Query: ${query}`);
           events = [];
           eventLength = [];
           await this.setState({ queryTracker: query });
