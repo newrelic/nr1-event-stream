@@ -2,7 +2,7 @@
   "private": true,
   "name": "nr1-event-stream",
   "description": "Event Stream Nerdpack",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "scripts": {
     "start": "nr1 nerdpack:serve",
     "test": "exit 0",

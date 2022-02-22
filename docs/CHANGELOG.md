@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/newrelic/nr1-event-stream/compare/v1.6.0...v1.6.1) (2022-02-22)
+
+
+### Bug Fixes
+
+* app deprecations ([dfb2bd2](https://github.com/newrelic/nr1-event-stream/commit/dfb2bd2b6616875036fcb9d35be665da207b75ad))
+
 # [1.6.0](https://github.com/newrelic/nr1-event-stream/compare/v1.5.1...v1.6.0) (2021-11-05)
 
 
