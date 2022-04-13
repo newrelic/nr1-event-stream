@@ -14,7 +14,7 @@
     "graphql-tag": "^2.11.0",
     "lodash": "^4.17.20",
     "prop-types": "^15.6.2",
-    "react": "^16.6.3",
+    "react": "^16.14.0",
     "react-dom": "^16.6.3",
     "react-draggable": "^3.3.2",
     "react-json-pretty": "^2.2.0",
