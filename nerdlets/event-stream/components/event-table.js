@@ -8,17 +8,17 @@ import { nrdbQuery } from '../lib/utils';
 import { navigation } from 'nr1';
 
 function openChartBuilder(query, account) {
-  const nerdlet = {
-    id: 'data-exploration.nrql-editor',
+  navigation.openNerdlet({
+    id: 'unified-data-exploration.share',
     urlState: {
-      initialActiveInterface: 'nrqlEditor',
-      initialChartType: 'json',
-      initialAccountId: account,
-      initialNrqlValue: query,
-      isViewingQuery: true,
+      widget: {
+        visualization: { id: 'viz.json' },
+        rawConfiguration: {
+          nrqlQueries: [{ query, accountIds: [account] }],
+        },
+      },
     },
-  };
-  navigation.openOverlay(nerdlet);
+  });
 }
 
 export default class EventTable extends React.PureComponent {
