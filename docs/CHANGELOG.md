@@ -1,3 +1,16 @@
+# [1.7.0](https://github.com/newrelic/nr1-event-stream/compare/v1.6.1...v1.7.0) (2026-07-14)
+
+
+### Bug Fixes
+
+* **ci:** downgrade package-lock to v1 to fix npm ci ERESOLVE ([79a69c2](https://github.com/newrelic/nr1-event-stream/commit/79a69c23230db264af6b662c2687731abb6ce8be))
+* **deps:** bump react/react-dom to ^16.14.0 to resolve peer conflicts ([2393ead](https://github.com/newrelic/nr1-event-stream/commit/2393ead698f0ddfd2f8fd79f98769bb25b842399))
+
+
+### Features
+
+* update wf ([a4907b9](https://github.com/newrelic/nr1-event-stream/commit/a4907b94a4e8533f719b50a23d9a853ff6f86723))
+
 ## [1.6.1](https://github.com/newrelic/nr1-event-stream/compare/v1.6.0...v1.6.1) (2022-02-22)
 
 
