@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/newrelic/nr1-event-stream/compare/v1.7.0...v1.7.1) (2026-07-14)
+
+
+### Bug Fixes
+
+* Migrate openOverlay to openNerdlet ([310e69c](https://github.com/newrelic/nr1-event-stream/commit/310e69cf87cab7d51af45ece18a3c01c23ce9632))
+
 # [1.7.0](https://github.com/newrelic/nr1-event-stream/compare/v1.6.1...v1.7.0) (2026-07-14)
 
 
